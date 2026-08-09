@@ -13,11 +13,15 @@ export const AppContextProvider = (props) => {
   // State to track if a search has been performed
   const [isSearched, setIsSearched] = useState(false);
 
+  const [showFilters, setShowFilters] = useState(false);
+
   const value = {
     searchFilter,
     setSearchFilter,
     isSearched,
     setIsSearched,
+    showFilters,
+    setShowFilters,
   };
 
   return (

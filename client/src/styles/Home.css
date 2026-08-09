@@ -1,0 +1,86 @@
+/* =========================
+   JOB PAGE LAYOUT
+========================= */
+
+.job-listing-container {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* =========================
+   FEATURED JOBS
+========================= */
+
+.featured-job-listings {
+  flex: 1;
+  min-width: 0;
+}
+
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 2rem;
+}
+
+.featured-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.featured-header p {
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.view-all-btn {
+  border: none;
+  background: #0f172a;
+  color: white;
+
+  padding: 0.8rem 1.3rem;
+  border-radius: 12px;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.view-all-btn:hover {
+  background: #1e293b;
+}
+
+@media (max-width: 768px) {
+  .job-listing-container {
+    flex-direction: column;
+    padding: 0 1rem;
+    gap: 1rem;
+    margin: 1.25rem auto;
+  }
+
+  .featured-job-listings {
+    width: 100%;
+  }
+
+  .featured-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .featured-header h2 {
+    font-size: 1.55rem;
+  }
+
+  .view-all-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+  }
+}
