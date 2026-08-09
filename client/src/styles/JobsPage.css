@@ -1,0 +1,47 @@
+.jobs-page-header {
+  background: black;
+  padding: 6rem;
+  margin-bottom: 1.5rem;
+}
+
+.jobs-page-title {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 3rem 0;
+}
+
+.pagination button {
+  padding: 0.65rem 1rem;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+}

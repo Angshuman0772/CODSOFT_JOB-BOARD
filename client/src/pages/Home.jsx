@@ -1,10 +1,12 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import NavBar from "../components/NavBar";
 import Hero from "../components/Hero";
 import JobCards from "../components/JobCards";
 import Sidebar from "../components/Sidebar";
 import "../styles/Home.css";
+import { jobsData } from "../assets/assets";
 
 const Home = () => {
   const { showFilters, setShowFilters } = useContext(AppContext);
@@ -33,10 +35,12 @@ const Home = () => {
               <p>Hand-picked opportunities from top companies</p>
             </div>
 
-            <button className="view-all-btn">View All Jobs</button>
+            <Link to="/jobs" className="view-all-btn">
+              View All Jobs
+            </Link>
           </div>
 
-          <JobCards />
+          <JobCards jobs={jobsData.slice(0, 6)} />
         </section>
       </div>
     </div>

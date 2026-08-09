@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  background: linear-gradient(135deg, #0b1020 0%, #111827 50%, #0f172a 100%);
+  background: rgb(19, 18, 18);
 
   padding: 1.5rem 4rem;
 }

@@ -1,18 +1,11 @@
-import { jobsData } from "../assets/assets";
 import "./JobCards.css";
 
-const JobCards = () => {
+const JobCards = ({ jobs }) => {
   return (
     <div className="jobs-grid">
-      {jobsData.slice(0, 6).map((job) => (
-        <div key={job._id} className="job-card">
-          <div className="job-card-top">
-            <img
-              src={job.companyId.image}
-              alt={job.companyId.name}
-              className="company-logo"
-            />
-
+      {jobs.map((job) => (
+        <div className="job-card" key={job._id}>
+          <div className="job-card-header">
             <span className="job-tag">{job.category}</span>
           </div>
 
