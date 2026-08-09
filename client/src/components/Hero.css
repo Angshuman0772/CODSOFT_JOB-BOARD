@@ -1,0 +1,236 @@
+.hero {
+  position: relative;
+
+  min-height: 45vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 3rem 2rem;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(0, 255, 200, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(0, 180, 255, 0.15),
+      transparent 40%
+    ),
+    linear-gradient(135deg, #0f172a 0%, #111827 50%, #020617 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 1100px;
+
+  text-align: center;
+
+  padding-top: 4rem;
+}
+
+.hero-content h1 {
+  color: white;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+
+  margin-bottom: 2rem;
+}
+
+.search-box {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr auto;
+
+  max-width: 800px;
+  margin: 0 auto;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+
+  overflow: hidden;
+}
+
+.search-box input,
+.search-box select {
+  border: none;
+  outline: none;
+
+  padding: 1.25rem 1.25rem;
+
+  background: transparent;
+  color: white;
+
+  font-size: 0.95rem;
+}
+
+.search-box input:first-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.search-box input::placeholder {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.search-box select {
+  cursor: pointer;
+}
+
+.search-box option {
+  color: black;
+}
+
+.search-box button {
+  border: none;
+  cursor: pointer;
+
+  background: #14b8a6;
+  color: white;
+
+  padding: 0 1.8rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.search-box button:hover {
+  background: #0d9488;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+
+  margin-top: 2.5rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
+  color: white;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: rgba(20, 184, 166, 0.2);
+  border: 1px solid rgba(20, 184, 166, 0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #14b8a6;
+}
+
+.stat h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.stat span {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.company-strip {
+  margin-top: 2.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+
+  flex-wrap: wrap;
+}
+
+.company {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 1rem;
+  font-weight: 500;
+
+  transition: 0.2s ease;
+}
+
+.company:hover {
+  color: white;
+}
+
+.company svg {
+  font-size: 1.6rem;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    min-height: auto;
+    padding: 2rem 1rem;
+  }
+
+  .hero-content {
+    padding-top: 3rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .search-box {
+    grid-template-columns: 1fr;
+  }
+
+  .search-box input:first-child {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .search-box button {
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .company-strip {
+    gap: 1.5rem;
+  }
+}

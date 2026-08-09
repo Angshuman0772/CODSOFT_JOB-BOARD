@@ -1,0 +1,139 @@
+/* =========================
+   JOB PAGE LAYOUT
+========================= */
+
+.job-listing-container {
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.job-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+
+  padding: 1.5rem;
+
+  background: #ebf5f4;
+  border-radius: 24px;
+
+  position: sticky;
+  top: 100px;
+
+  height: fit-content;
+}
+
+.filter-group {
+  margin-bottom: 2rem;
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+.filter-group h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+/* Active Search Chips */
+
+.filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  padding: 0.45rem 0.8rem;
+
+  background: white;
+  border: 1px solid #dfe7e7;
+  border-radius: 999px;
+
+  font-size: 0.85rem;
+}
+
+.filter-chip svg {
+  cursor: pointer;
+}
+
+/* Checkboxes */
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+
+  margin-bottom: 0.75rem;
+
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.checkbox-row:hover {
+  color: #111827;
+}
+
+.checkbox-row input {
+  accent-color: #14b8a6;
+}
+
+/* =========================
+   FEATURED JOBS
+========================= */
+
+.featured-job-listings {
+  flex: 1;
+  min-width: 0;
+}
+
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 2rem;
+}
+
+.featured-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.featured-header p {
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.view-all-btn {
+  border: none;
+  background: #0f172a;
+  color: white;
+
+  padding: 0.8rem 1.3rem;
+  border-radius: 12px;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.view-all-btn:hover {
+  background: #1e293b;
+}
