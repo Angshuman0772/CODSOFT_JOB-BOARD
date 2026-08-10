@@ -1,7 +1,8 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, BriefcaseBusiness, Users, Building2 } from "lucide-react";
+import { AppContext } from "../context/AppContext";
 
+import { Search, BriefcaseBusiness, Users, Building2 } from "lucide-react";
 import {
   SiSpotify,
   SiCloudflare,
@@ -9,8 +10,6 @@ import {
   SiAsana,
   SiLinear,
 } from "react-icons/si";
-
-import { AppContext } from "../context/AppContext";
 import "./Hero.css";
 
 const Hero = () => {
@@ -20,10 +19,14 @@ const Hero = () => {
   const locationRef = useRef(null);
 
   const handleSearch = () => {
-    
     const title = titleRef.current.value;
     const location = locationRef.current.value;
-    setSearchFilter({ title, location, selectedCategories: [], selectedLocations: [] });
+    setSearchFilter({
+      title,
+      location,
+      selectedCategories: [],
+      selectedLocations: [],
+    });
     setIsSearched(true);
     navigate("/jobs");
   };
@@ -40,11 +43,7 @@ const Hero = () => {
         </p>
 
         <div className="search-box">
-          <input
-            type="text"
-            placeholder="Job Title"
-            ref={titleRef}
-          />
+          <input type="text" placeholder="Job Title" ref={titleRef} />
 
           <input type="text" placeholder="Location" ref={locationRef} />
 

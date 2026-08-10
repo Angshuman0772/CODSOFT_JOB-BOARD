@@ -7,9 +7,9 @@ import "../styles/JobsPage.css";
 
 const Jobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { searchFilter } = useContext(AppContext);
   const jobsPerPage = 9;
 
+  const { searchFilter } = useContext(AppContext);
   const { filteredJobs } = useContext(AppContext);
 
   useEffect(() => {
@@ -18,9 +18,7 @@ const Jobs = () => {
   }, [searchFilter]);
 
   const startIndex = (currentPage - 1) * jobsPerPage;
-
   const currentJobs = filteredJobs.slice(startIndex, startIndex + jobsPerPage);
-
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
 
   return (
