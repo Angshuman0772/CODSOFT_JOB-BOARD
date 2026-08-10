@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import "./JobCards.css";
 
 const JobCards = ({ jobs }) => {
   return (
     <div className="jobs-grid">
       {jobs.map((job) => (
-        <div className="job-card" key={job._id}>
+        <Link className="job-card" key={job._id} to={`/jobs/${job._id}`}>
           <div className="job-card-header">
             <span className="job-tag">{job.category}</span>
           </div>
@@ -25,7 +26,7 @@ const JobCards = ({ jobs }) => {
 
             <button>Apply Now</button>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

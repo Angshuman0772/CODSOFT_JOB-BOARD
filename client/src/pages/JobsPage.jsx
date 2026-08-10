@@ -26,8 +26,8 @@ const Jobs = () => {
   return (
     <>
       <NavBar />
-      <div className="jobs-page-header">
-        <h1 className="jobs-page-title">All Jobs</h1>
+      <div className="page-header">
+        <h1 className="page-title">All Jobs</h1>
       </div>
       <div className="job-listing-container">
         <Sidebar showSearch={true} />

@@ -1,8 +1,12 @@
+import Navbar from "../components/Navbar";
 const JobApplications = () => {
   return (
-    <div>
-      <h1>Job Applications</h1>
-    </div>
+    <>
+      <Navbar />
+      <div className="page-header">
+        <h1 className="page-title">Job Applications</h1>
+      </div>
+    </>
   );
 };
 
