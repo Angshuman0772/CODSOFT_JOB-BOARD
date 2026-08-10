@@ -23,7 +23,7 @@ const Hero = () => {
     
     const title = titleRef.current.value;
     const location = locationRef.current.value;
-    setSearchFilter({ title, location });
+    setSearchFilter({ title, location, selectedCategories: [], selectedLocations: [] });
     setIsSearched(true);
     navigate("/jobs");
   };

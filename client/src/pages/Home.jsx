@@ -17,7 +17,7 @@ const Home = () => {
       <div className="job-listing-container">
         <button
           className="mobile-filter-btn"
-          type="button"
+          type="button" 
           onClick={() => setShowFilters((prev) => !prev)}
           aria-expanded={showFilters}
           aria-controls="job-filters"
@@ -25,7 +25,7 @@ const Home = () => {
           {showFilters ? "Hide Filters" : "Show Filters"}
         </button>
 
-        <Sidebar />
+        <Sidebar redirectOnFilter={true} />
 
         {/* Job Listings */}
         <section className="featured-job-listings">

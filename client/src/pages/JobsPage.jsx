@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
-import { jobsData } from "../assets/assets";
 import JobCards from "../components/JobCards";
 import Sidebar from "../components/Sidebar";
 import NavBar from "../components/NavBar";
@@ -11,17 +10,7 @@ const Jobs = () => {
   const { searchFilter } = useContext(AppContext);
   const jobsPerPage = 9;
 
-  const filteredJobs = jobsData.filter((job) => {
-    const titleMatch =
-      searchFilter.title === "" ||
-      job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
-
-    const locationMatch =
-      searchFilter.location === "" ||
-      job.location.toLowerCase().includes(searchFilter.location.toLowerCase());
-
-    return titleMatch && locationMatch;
-  });
+  const { filteredJobs } = useContext(AppContext);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -33,8 +22,6 @@ const Jobs = () => {
   const currentJobs = filteredJobs.slice(startIndex, startIndex + jobsPerPage);
 
   const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
-
-  
 
   return (
     <>

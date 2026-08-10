@@ -1,12 +1,21 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { JobCategories, JobLocations } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
 import { X, Search, MapPin } from "lucide-react";
 import "./Sidebar.css";
 
-const Sidebar = ({ showSearch }) => {
-  const { isSearched, searchFilter, setSearchFilter, showFilters } =
-    useContext(AppContext);
+const Sidebar = ({ showSearch, redirectOnFilter }) => {
+  const {
+    searchFilter,
+    setSearchFilter,
+    toggleCategory,
+    toggleLocation,
+    showFilters,
+    isSearched,
+  } = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   return (
     <div
@@ -105,8 +114,18 @@ const Sidebar = ({ showSearch }) => {
 
         {JobCategories.map((category) => (
           <label key={category} className="checkbox-row">
-            <input type="checkbox" />
-            <span>{category}</span>
+            <input
+              type="checkbox"
+              checked={searchFilter.selectedCategories.includes(category)}
+              onChange={() => {
+                toggleCategory(category);
+
+                if (redirectOnFilter) {
+                  navigate("/jobs");
+                }
+              }}
+            />
+            {category}
           </label>
         ))}
       </div>
@@ -117,8 +136,18 @@ const Sidebar = ({ showSearch }) => {
 
         {JobLocations.map((location) => (
           <label key={location} className="checkbox-row">
-            <input type="checkbox" />
-            <span>{location}</span>
+            <input
+              type="checkbox"
+              checked={searchFilter.selectedLocations.includes(location)}
+              onChange={() => {
+                toggleLocation(location);
+
+                if (redirectOnFilter) {
+                  navigate("/jobs");
+                }
+              }}
+            />
+            {location}
           </label>
         ))}
       </div>
