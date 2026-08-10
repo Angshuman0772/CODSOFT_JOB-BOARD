@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { JobCategories, JobLocations } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
-import { X } from "lucide-react";
+import { X, Search, MapPin } from "lucide-react";
 import "./Sidebar.css";
 
-const Sidebar = () => {
+const Sidebar = ({ showSearch }) => {
   const { isSearched, searchFilter, setSearchFilter, showFilters } =
     useContext(AppContext);
 
@@ -53,6 +53,50 @@ const Sidebar = () => {
             )}
           </div>
         </div>
+      )}
+
+      {showSearch && (
+        <>
+          {/* Search by Job Title */}
+          <div className="sidebar-search-section">
+            <h3>Search by Job Title</h3>
+
+            <div className="sidebar-search-input">
+              <Search size={18} />
+              <input
+                type="text"
+                placeholder="Job title or company"
+                value={searchFilter.title}
+                onChange={(e) =>
+                  setSearchFilter({
+                    ...searchFilter,
+                    title: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
+          {/* Location */}
+          <div className="sidebar-search-section">
+            <h3>Location</h3>
+
+            <div className="sidebar-search-input">
+              <MapPin size={18} />
+              <input
+                type="text"
+                placeholder="Choose city"
+                value={searchFilter.location}
+                onChange={(e) =>
+                  setSearchFilter({
+                    ...searchFilter,
+                    location: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+        </>
       )}
 
       {/* Categories */}

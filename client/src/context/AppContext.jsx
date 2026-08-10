@@ -13,6 +13,7 @@ export const AppContextProvider = (props) => {
   // State to track if a search has been performed
   const [isSearched, setIsSearched] = useState(false);
 
+  // State to control the visibility of the filters sidebar
   const [showFilters, setShowFilters] = useState(false);
 
   const value = {

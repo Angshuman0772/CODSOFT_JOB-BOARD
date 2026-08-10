@@ -1,4 +1,5 @@
 import { useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, BriefcaseBusiness, Users, Building2 } from "lucide-react";
 
 import {
@@ -13,15 +14,18 @@ import { AppContext } from "../context/AppContext";
 import "./Hero.css";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const { setSearchFilter, setIsSearched } = useContext(AppContext);
   const titleRef = useRef(null);
   const locationRef = useRef(null);
 
   const handleSearch = () => {
+    
     const title = titleRef.current.value;
     const location = locationRef.current.value;
     setSearchFilter({ title, location });
     setIsSearched(true);
+    navigate("/jobs");
   };
 
   return (
@@ -38,7 +42,7 @@ const Hero = () => {
         <div className="search-box">
           <input
             type="text"
-            placeholder="Job Title or Company"
+            placeholder="Job Title"
             ref={titleRef}
           />
 

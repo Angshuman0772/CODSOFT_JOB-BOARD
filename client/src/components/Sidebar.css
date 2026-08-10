@@ -13,6 +13,39 @@
   height: fit-content;
 }
 
+.sidebar-search-section {
+  margin-bottom: 1.75rem;
+}
+
+.sidebar-search-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-search-input {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  background: white;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+}
+
+.sidebar-search-input input {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  font-size: 0.95rem;
+}
+
+.sidebar-search-input svg {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
 /* Filter button hidden on desktop */
 
 .mobile-filter-btn {

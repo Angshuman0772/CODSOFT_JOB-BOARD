@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { AppContext } from "../context/AppContext";
 import { jobsData } from "../assets/assets";
 import JobCards from "../components/JobCards";
 import Sidebar from "../components/Sidebar";
@@ -7,13 +8,33 @@ import "../styles/JobsPage.css";
 
 const Jobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const { searchFilter } = useContext(AppContext);
   const jobsPerPage = 9;
 
-  const startIndex = (currentPage - 1) * jobsPerPage;
-  const currentJobs = jobsData.slice(startIndex, startIndex + jobsPerPage);
+  const filteredJobs = jobsData.filter((job) => {
+    const titleMatch =
+      searchFilter.title === "" ||
+      job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
 
-  const totalPages = Math.ceil(jobsData.length / jobsPerPage);
+    const locationMatch =
+      searchFilter.location === "" ||
+      job.location.toLowerCase().includes(searchFilter.location.toLowerCase());
+
+    return titleMatch && locationMatch;
+  });
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCurrentPage(1); // Reset to the first page whenever the search filter changes
+  }, [searchFilter]);
+
+  const startIndex = (currentPage - 1) * jobsPerPage;
+
+  const currentJobs = filteredJobs.slice(startIndex, startIndex + jobsPerPage);
+
+  const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+
+  
 
   return (
     <>
@@ -22,7 +43,7 @@ const Jobs = () => {
         <h1 className="jobs-page-title">All Jobs</h1>
       </div>
       <div className="job-listing-container">
-        <Sidebar />
+        <Sidebar showSearch={true} />
         <JobCards jobs={currentJobs} />
       </div>
       <div className="pagination">
