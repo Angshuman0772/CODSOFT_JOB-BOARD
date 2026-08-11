@@ -19,7 +19,7 @@ export const AppContextProvider = (props) => {
   const [showFilters, setShowFilters] = useState(false);
 
   // State to control the visibility of the recruiter login modal
-  const [isRecruiter, setisRecruiter] = useState(false);
+  const [showRecruiterLogin, setshowRecruiterLogin] = useState(false);
 
   const toggleCategory = (category) => {
     setSearchFilter((prev) => ({
@@ -69,8 +69,8 @@ export const AppContextProvider = (props) => {
     showFilters,
     setShowFilters,
     filteredJobs,
-    isRecruiter,
-    setisRecruiter,
+    showRecruiterLogin,
+    setshowRecruiterLogin,
   };
 
   return (

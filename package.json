@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "quil": "^1.1.30",
-    "react-router-dom": "^7.18.2",
-    "react-toastify": "^11.1.0"
-  }
-}

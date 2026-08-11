@@ -7,7 +7,7 @@ import "./RecruiterLogin.css";
 const RecruiterLogin = () => {
   const [mode, setMode] = useState("login");
   const [step, setStep] = useState(1);
-  const { setisRecruiter } = useContext(AppContext);
+  const { setshowRecruiterLogin } = useContext(AppContext);
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -81,7 +81,7 @@ const RecruiterLogin = () => {
         <button
           type="button"
           className="close-btn"
-          onClick={() => setisRecruiter(false)}
+          onClick={() => setshowRecruiterLogin(false)}
         >
           <X size={20} />
         </button>

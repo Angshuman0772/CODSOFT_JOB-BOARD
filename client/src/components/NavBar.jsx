@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const NavBar = () => {
   const { openSignIn } = useClerk();
   const { user } = useUser();
-  const { setisRecruiter } = useContext(AppContext);
+  const { setshowRecruiterLogin } = useContext(AppContext);
 
   return (
     <div className="navbar">
@@ -27,7 +27,10 @@ const NavBar = () => {
         </div>
       ) : (
         <div className="auth-buttons">
-          <button className="login-btn" onClick={() => setisRecruiter(true)}>
+          <button
+            className="login-btn"
+            onClick={() => setshowRecruiterLogin(true)}
+          >
             Recruiter Login
           </button>
 
