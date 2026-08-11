@@ -108,7 +108,7 @@
 .job-footer button {
   border: none;
 
-  background: linear-gradient(135deg, #14b8a6, #06b6d4);
+  background: var(--accent-color);
 
   color: white;
 
@@ -121,6 +121,7 @@
 
 .job-footer button:hover {
   transform: translateY(-2px);
+  background: var(--accent-color-hover);
 }
 
 @media (max-width: 1024px) {

@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { jobsData, assets } from "../assets/assets";
 import "../styles/JobDetails.css";
 
@@ -60,7 +60,9 @@ const JobDetails = () => {
 
         {/* RIGHT */}
         <aside className="job-sidebar">
-          <button className="apply-btn">Apply Job</button>
+          <Link to="/applications" className="apply-btn">
+            Apply Job
+          </Link>
 
           <div className="job-overview">
             <h3>Job Overview</h3>

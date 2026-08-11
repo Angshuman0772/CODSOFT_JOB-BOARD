@@ -9,10 +9,10 @@ const NavBar = () => {
 
   return (
     <div className="navbar">
-      <div className="logo">
+      <Link to="/" className="logo">
         <BriefcaseBusiness />
         <span>HireFlow</span>
-      </div>
+      </Link>
 
       {user ? (
         <div className="user-section">

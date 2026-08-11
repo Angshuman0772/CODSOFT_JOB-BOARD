@@ -4,7 +4,7 @@
 
   padding: 1.5rem;
 
-  background: #ebf5f4;
+  background: var(--muted-color);
   border-radius: 24px;
 
   position: sticky;
@@ -112,7 +112,7 @@
 }
 
 .checkbox-row input {
-  accent-color: #14b8a6;
+  accent-color: var(--accent-color);
 }
 
 @media (max-width: 768px) {

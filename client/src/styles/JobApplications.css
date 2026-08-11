@@ -1,0 +1,143 @@
+/* Resume Card */
+
+.resume-card {
+  width: 380px;
+  margin: 0 auto 32px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 20px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+}
+
+.resume-card-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+
+  margin-bottom: 6px;
+}
+
+.resume-card-content p {
+  font-size: 0.9rem;
+  color: #6b7280;
+
+  margin-bottom: 12px;
+}
+
+/* Resume Link */
+
+.resume-card-content a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 14px;
+
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+}
+
+.resume-card-content a:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+/* Upload Area */
+
+.upload-area {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+
+  padding: 10px 16px;
+
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-area:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* Buttons */
+
+.resume-card-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.resume-card-buttons .btn,
+.resume-card-buttons button {
+  border: none;
+  border-radius: 8px;
+
+  padding: 10px 14px;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Upload New */
+
+.resume-card-buttons .btn {
+  background: #2563eb;
+  color: white;
+}
+
+.resume-card-buttons .btn:hover {
+  background: #1d4ed8;
+}
+
+/* Remove */
+
+.resume-card-buttons button {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.resume-card-buttons button:hover {
+  background: #fecaca;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .resume-card {
+    width: 100%;
+  }
+
+  .resume-card-buttons {
+    flex-direction: column;
+  }
+}
