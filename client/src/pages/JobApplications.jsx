@@ -66,46 +66,46 @@ const JobApplications = () => {
       </div>
 
       <div className="stats-section">
-        <div className="stat-header">
+        <div className="stats-header">
           <h3>Jobs Applied</h3>
-          <div className="stats-grid">
-            <table className="applications-table">
-              <thead>
-                <tr>
-                  <th>Company</th>
-                  <th>Job Title</th>
-                  <th>Location</th>
-                  <th>Date</th>
-                  <th>Action</th>
+        </div>
+        <div className="stats-grid">
+          <table className="applications-table">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {jobsApplied.map((job, index) => (
+                <tr key={index}>
+                  <td>
+                    <div className="company-cell">
+                      <img src={job.logo} alt={job.company} />
+                      <span>{job.company}</span>
+                    </div>
+                  </td>
+
+                  <td>{job.title}</td>
+                  <td>{job.location}</td>
+                  <td>{job.date}</td>
+
+                  <td>
+                    <span
+                      className={`status-badge ${job.status.toLowerCase()}`}
+                    >
+                      {job.status}
+                    </span>
+                  </td>
                 </tr>
-              </thead>
-
-              <tbody>
-                {jobsApplied.map((job, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div className="company-cell">
-                        <img src={job.logo} alt={job.company} />
-                        <span>{job.company}</span>
-                      </div>
-                    </td>
-
-                    <td>{job.role}</td>
-                    <td>{job.location}</td>
-                    <td>{job.date}</td>
-
-                    <td>
-                      <span
-                        className={`status-badge ${job.status.toLowerCase()}`}
-                      >
-                        {job.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>

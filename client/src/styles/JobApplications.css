@@ -1,143 +1,232 @@
 /* Resume Card */
-
 .resume-card {
-  width: 380px;
-  margin: 0 auto 32px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  padding: 20px;
+  width: 100%;
+  max-width: 1000px;
 
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 14px;
+  border-radius: 20px;
 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
+  margin: 0 auto 2rem;
 
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 .resume-card-content h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: #111827;
-
-  margin-bottom: 6px;
+  margin-bottom: 0.75rem;
 }
 
 .resume-card-content p {
-  font-size: 0.9rem;
   color: #6b7280;
-
-  margin-bottom: 12px;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
 }
 
-/* Resume Link */
-
-.resume-card-content a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  padding: 10px 14px;
-
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-
-  transition: all 0.2s ease;
-}
-
-.resume-card-content a:hover {
-  background: #eff6ff;
-  border-color: #bfdbfe;
-}
-
-/* Upload Area */
-
+/* Upload Button */
 .upload-area {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  width: fit-content;
+  padding: 0.75rem 1rem;
 
-  padding: 10px 16px;
+  background: var(--accent-color);
+  color: white;
 
-  background: #f8fafc;
-  border: 2px dashed #cbd5e1;
   border-radius: 10px;
-
-  color: #475569;
-  font-size: 0.9rem;
-  font-weight: 500;
-
+  font-weight: 600;
   cursor: pointer;
+
   transition: all 0.2s ease;
 }
 
 .upload-area:hover {
-  background: #eff6ff;
-  border-color: #2563eb;
-  color: #2563eb;
+  background: var(--accent-color-hover);
 }
 
-/* Buttons */
-
-.resume-card-buttons {
+/* Resume File Link */
+.resume-card-content a {
   display: flex;
-  gap: 10px;
-}
+  align-items: center;
+  gap: 0.5rem;
 
-.resume-card-buttons .btn,
-.resume-card-buttons button {
-  border: none;
-  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.5rem;
 
-  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
 
-  font-size: 0.9rem;
-  font-weight: 500;
+  text-decoration: none;
+  font-weight: 600;
 
-  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-/* Upload New */
+.resume-card-content a:hover {
+  background: var(--muted-color);
+  border-color: var(--accent-color);
+}
+
+/* Buttons */
+.resume-card-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
 
 .resume-card-buttons .btn {
-  background: #2563eb;
+  flex: 1;
+
+  padding: 0.75rem 1rem;
+  text-align: center;
+
+  background: var(--accent-color);
   color: white;
+
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+
+  transition: all 0.2s ease;
 }
 
 .resume-card-buttons .btn:hover {
-  background: #1d4ed8;
+  background: var(--accent-color-hover);
 }
 
-/* Remove */
-
 .resume-card-buttons button {
+  flex: 1;
+
+  padding: 0.75rem 1rem;
+
+  border: none;
+  border-radius: 10px;
+
   background: #fee2e2;
   color: #dc2626;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
 }
 
 .resume-card-buttons button:hover {
   background: #fecaca;
 }
 
-/* Mobile */
 
-@media (max-width: 768px) {
-  .resume-card {
-    width: 100%;
-  }
+.stats-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
 
-  .resume-card-buttons {
-    flex-direction: column;
-  }
+.stats-header {
+  margin-bottom: 1.5rem;
+}
+
+.stats-header h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Centers table and allows horizontal scrolling on mobile */
+.stats-grid {
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.applications-table {
+  width: 100%;
+  max-width: 1100px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.applications-table thead {
+  background: #f8fafc;
+}
+
+.applications-table th {
+  text-align: left;
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748b;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.applications-table td {
+  padding: 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+
+.applications-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.applications-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Company logo + name */
+.company-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-cell img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+  padding: 4px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.accepted {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.interview {
+  background: #dbeafe;
+  color: #1d4ed8;
 }
