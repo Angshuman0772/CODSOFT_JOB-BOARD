@@ -36,7 +36,7 @@
 }
 
 .featured-header p {
-  color: #6b7280;
+  color: var(--subtitle-text);
   margin-top: 0.25rem;
 }
 

@@ -1,0 +1,76 @@
+.dashboard-header {
+  /* height: 72px; */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1.2rem 4rem;
+  margin: 0;
+
+  background: rgb(19, 18, 18);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Profile Section */
+
+.header-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
+  padding: 0.6rem 1rem;
+
+  background: var(--accent-color);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+
+  backdrop-filter: blur(10px);
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.header-profile:hover {
+  background: var(--accent-color-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+
+  transform: translateY(-2px);
+}
+
+/* Text */
+
+.header-text {
+  text-align: right;
+}
+
+.header-text h3 {
+  margin: 0;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  color: #ffffff;
+}
+
+.header-text p {
+  margin-top: 2px;
+
+  font-size: 0.8rem;
+  color: white;
+}
+
+/* Logo */
+
+.company-logo {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 12px;
+  object-fit: cover;
+
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: #111827;
+
+  flex-shrink: 0;
+}
