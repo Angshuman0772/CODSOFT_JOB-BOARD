@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 import { assets } from "../assets/assets";
 import { BriefcaseBusiness } from "lucide-react";
 import "./DashboardHeader.css";
@@ -5,10 +6,10 @@ import "./DashboardHeader.css";
 const DashboardHeader = () => {
   return (
     <header className="dashboard-header">
-      <div className="logo">
+      <Link to="/" className="logo">
         <BriefcaseBusiness size={24} />
         <span>HireFlow</span>
-      </div>
+      </Link>
       <div className="header-profile">
         <div className="header-text">
           <h3>Slack</h3>
