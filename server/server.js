@@ -1,19 +1,25 @@
 import "./config/instrument.js";
+import { v2 as cloudinary } from "cloudinary";
 import express from "express";
 import * as Sentry from "@sentry/node";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import connectCloudinary from "./config/cloudinary.js";
 import clerkWebhooks from "./controllers/webhooks.js";
-import companyRoutes from "./controllers/routes/companyRoutes.js";
+import companyRoutes from "./routes/companyRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 // initialize express
 const app = express();
 
 // connect to mongodb database
 await connectDB();
+
+// connect to cloudinary
+await connectCloudinary();
 
 // middleware
 app.use(cors());
@@ -28,6 +34,7 @@ app.get("/debug-sentry", function mainHandler(req, res) {
 });
 app.post("/webhooks", clerkWebhooks);
 app.use("/api/company", companyRoutes);
+app.use("/api/jobs", jobRoutes);
 
 // start server
 const PORT = process.env.PORT || 5000;
