@@ -13,6 +13,7 @@ export const registerCompany = async (req, res) => {
 
   if (!name || !email || !password || !imageFile) {
     return res.status(400).json({
+      success: false,
       message: "Name, email, password, and image are required.",
     });
   }
@@ -22,6 +23,7 @@ export const registerCompany = async (req, res) => {
 
     if (companyExists) {
       return res.status(400).json({
+        success: false,
         message: "Company already exists.",
       });
     }
@@ -41,6 +43,7 @@ export const registerCompany = async (req, res) => {
     });
 
     return res.status(201).json({
+      success: true,
       message: "Company registered successfully.",
       company: {
         _id: company._id,
