@@ -3,11 +3,17 @@ import { X } from "lucide-react";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import "./RecruiterLogin.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RecruiterLogin = () => {
+  const navigate = useNavigate();
+
   const [mode, setMode] = useState("login");
   const [step, setStep] = useState(1);
-  const { setshowRecruiterLogin } = useContext(AppContext);
+  const { setshowRecruiterLogin, backendUrl, setCompanyToken, setCompanyData } =
+    useContext(AppContext);
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -51,14 +57,32 @@ const RecruiterLogin = () => {
   };
 
   // handleSubmit function to handle form submission for both login and registration; switches to the next step in registration if applicable
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (isLogin) {
-      console.log("Login", {
-        email: formData.email,
-        password: formData.password,
-      });
+      try {
+        const { data } = await axios.post(`${backendUrl}/api/company/login`, {
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (data.success) {
+          console.log(data);
+          setCompanyData(data.company);
+          setCompanyToken(data.token);
+          localStorage.setItem("companyToken", data.token);
+          setshowRecruiterLogin(false);
+          navigate("/dashboard");
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(
+          error.response?.data?.message ||
+            "Login failed. Please check your credentials.",
+        );
+      }
 
       return;
     }
@@ -68,7 +92,32 @@ const RecruiterLogin = () => {
       return;
     }
 
-    console.log("Register", formData);
+    try {
+      const form = new FormData();
+
+      form.append("name", formData.companyName);
+      form.append("email", formData.email);
+      form.append("password", formData.password);
+      form.append("image", formData.logo);
+
+      const { data } = await axios.post(
+        `${backendUrl}/api/company/register`,
+        form,
+      );
+
+      if (data.success) {
+        console.log(data);
+        setCompanyData(data.company);
+        setCompanyToken(data.token);
+        localStorage.setItem("companyToken", data.token);
+        setshowRecruiterLogin(false);
+        navigate("/dashboard");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (

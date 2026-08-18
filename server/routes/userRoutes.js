@@ -3,7 +3,9 @@ import {
   getUserData,
   applyForJob,
   getUserJobApplications,
-} from "../controllers/userControllers.js";
+  updateUserProfile,
+} from "../controllers/userController.js";
+import upload from "../config/multer.js";
 
 const router = express.Router();
 

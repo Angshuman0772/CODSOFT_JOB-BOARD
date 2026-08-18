@@ -1,9 +1,14 @@
 import { createContext, useState } from "react";
 import { jobsData } from "../assets/assets";
+import { useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   // State to hold the search filter values
   const [searchFilter, setSearchFilter] = useState({
     title: "",
@@ -20,6 +25,47 @@ export const AppContextProvider = (props) => {
 
   // State to control the visibility of the recruiter login modal
   const [showRecruiterLogin, setshowRecruiterLogin] = useState(false);
+
+  // State to hold the company token and company data for recruiter authentication
+  const [companyToken, setCompanyToken] = useState(null);
+  const [companyData, setCompanyData] = useState(null);
+
+  // Check for an existing recruiter login and restore authentication state
+  useEffect(() => {
+    const storedCompanyToken = localStorage.getItem("companyToken");
+
+    if (storedCompanyToken) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCompanyToken(storedCompanyToken);
+    }
+  }, []);
+
+  // Fetch company data when the company token changes
+  useEffect(() => {
+    const fetchCompanyData = async () => {
+      try {
+        const { data } = await axios.get(
+          `${backendUrl}/api/company/company-data`,
+          {
+            headers: { token: companyToken },
+          },
+        );
+
+        if (data.success) {
+          setCompanyData(data.company);
+          console.log(data.company);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    if (companyToken) {
+      fetchCompanyData();
+    }
+  }, [companyToken, backendUrl]);
 
   const toggleCategory = (category) => {
     setSearchFilter((prev) => ({
@@ -71,6 +117,11 @@ export const AppContextProvider = (props) => {
     filteredJobs,
     showRecruiterLogin,
     setshowRecruiterLogin,
+    companyToken,
+    setCompanyToken,
+    companyData,
+    setCompanyData,
+    backendUrl,
   };
 
   return (

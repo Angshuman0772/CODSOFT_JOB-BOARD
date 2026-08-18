@@ -66,7 +66,14 @@ export const loginCompany = async (req, res) => {
   const { email, password } = req.body;
   try {
     const company = await Company.findOne({ email });
-    if (bcrypt.compare(password, company.password)) {
+
+    if (!company) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password" });
+    }
+
+    if (await bcrypt.compare(password, company.password)) {
       res.json({
         success: true,
         company: {
@@ -78,10 +85,12 @@ export const loginCompany = async (req, res) => {
         token: generateToken(company._id),
       });
     } else {
-      res.status(401).json({ message: "Invalid email or password" });
+      res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

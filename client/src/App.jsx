@@ -10,21 +10,27 @@ import AddJobs from "./pages/AddJobs";
 import ManageJobs from "./pages/ManageJobs";
 import ViewApplications from "./pages/ViewApplications";
 import RecruiterLogin from "./components/RecruiterLogin";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
-  const { showRecruiterLogin } = useContext(AppContext);
+  const { showRecruiterLogin, companyToken } = useContext(AppContext);
   return (
     <div>
       {showRecruiterLogin && <RecruiterLogin />}
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/jobs/:id" element={<JobDetails />} />
         <Route path="/applications" element={<JobApplications />} />
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="add-jobs" element={<AddJobs />} />
-          <Route path="manage-jobs" element={<ManageJobs />} />
-          <Route path="view-applications" element={<ViewApplications />} />
+          {companyToken ? (
+            <>
+              <Route path="add-jobs" element={<AddJobs />} />
+              <Route path="manage-jobs" element={<ManageJobs />} />
+              <Route path="view-applications" element={<ViewApplications />} />
+            </>
+          ) : null}
         </Route>
       </Routes>
     </div>
