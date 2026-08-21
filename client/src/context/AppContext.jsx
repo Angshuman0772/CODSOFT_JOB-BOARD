@@ -47,7 +47,10 @@ export const AppContextProvider = (props) => {
 
   // store name, email, image, and other data of the logged-in user
   const [userData, setUserData] = useState(null);
-  const [userApplications] = useState([]);
+  const [userApplications, setUserApplications] = useState([]);
+
+  // State to hold the uploaded resume file
+  const [resume, setResume] = useState(null);
 
   // Check for an existing recruiter login and restore authentication state
   useEffect(() => {
@@ -95,7 +98,7 @@ export const AppContextProvider = (props) => {
   const fetchUserData = useCallback(async () => {
     try {
       const token = await getToken();
-
+      console.log("Clerk token:", token);
       const { data } = await axios.get(`${backendUrl}/api/user/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -188,8 +191,12 @@ export const AppContextProvider = (props) => {
     companyData,
     setCompanyData,
     userData,
+    setUserData,
     userApplications,
+    setUserApplications,
     backendUrl,
+    resume,
+    setResume,
   };
 
   return (

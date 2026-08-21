@@ -3,7 +3,8 @@
  *
  * Purpose: show uploaded resume status and a table of applied jobs.
  */
-import { useState } from "react";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 import { jobsApplied } from "../assets/assets";
 import Navbar from "../components/Navbar";
 import "../styles/JobApplications.css";
@@ -15,8 +16,6 @@ import "../styles/JobApplications.css";
  * @sideeffects Creates temporary object URLs for selected local resume files.
  */
 const JobApplications = () => {
-  const [resume, setResume] = useState(null);
-
   /**
    * Stores selected resume file in local component state.
    *
@@ -24,6 +23,9 @@ const JobApplications = () => {
    * @returns {void}
    * @sideeffects Updates resume state.
    */
+
+  const { resume, setResume } = useContext(AppContext);
+
   const handleResumeUpload = (e) => {
     const file = e.target.files[0];
     if (file) {

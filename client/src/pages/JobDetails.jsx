@@ -9,6 +9,7 @@ import { useParams, Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { useContext } from "react";
 import { assets } from "../assets/assets";
+import { toast } from "react-toastify";
 import "../styles/JobDetails.css";
 
 /**
@@ -19,7 +20,8 @@ import "../styles/JobDetails.css";
  */
 const JobDetails = () => {
   const { id } = useParams();
-  const { backendUrl } = useContext(AppContext);
+  const { backendUrl, userData, userApplications, resume } =
+    useContext(AppContext);
   const [job, setJob] = useState(null);
 
   // fetch job details from backend
@@ -40,6 +42,23 @@ const JobDetails = () => {
   if (!job) {
     return <h2>Job not found</h2>;
   }
+
+  console.log("userData in JobDetails:", userData);
+  const applyHandler = async () => {
+    try {
+      if (!userData) {
+        return toast.error("Please login to apply for jobs");
+      }
+      if (!resume) {
+        return toast.error("Please upload a resume before applying");
+      }
+      // proceed with actual apply logic here
+    } catch (error) {
+      toast.error(
+        error.message || "An error occurred while applying for the job",
+      );
+    }
+  };
 
   return (
     <>
@@ -90,7 +109,7 @@ const JobDetails = () => {
 
         {/* RIGHT */}
         <aside className="job-sidebar">
-          <Link to="/applications" className="apply-btn">
+          <Link onClick={applyHandler} to="/applications" className="apply-btn">
             Apply Job
           </Link>
 
