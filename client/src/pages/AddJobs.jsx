@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { JobCategories, JobLocations } from "../assets/assets";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "../styles/AddJobs.css";
@@ -15,6 +19,8 @@ const AddJobs = () => {
 
   const editorRef = useRef(null);
   const quillRef = useRef(null);
+
+  const { backendUrl, companyToken } = useContext(AppContext);
 
   useEffect(() => {
     if (!editorRef.current || quillRef.current) return;
@@ -34,18 +40,93 @@ const AddJobs = () => {
     });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const jobDescription = quillRef.current.root.innerHTML;
+    try {
+      const jobDescription = quillRef.current.root.innerHTML;
 
-    const jobData = {
-      ...state,
-      description: jobDescription,
-    };
+      console.log("Submitting job...");
+      console.log("Token:", companyToken);
 
-    console.log(jobData);
+      const response = await axios.post(
+        `${backendUrl}/api/company/post-job`,
+        {
+          ...state,
+          title: state.jobTitle,
+          description: jobDescription,
+          category: state.jobCategory,
+          location: state.jobLocation,
+          level: state.jobLevel,
+          salary: state.salary,
+        },
+        {
+          headers: {
+            token: companyToken,
+          },
+        },
+      );
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+
+        setState({
+          jobTitle: "",
+          jobCategory: JobCategories[0],
+          jobLocation: JobLocations[0],
+          jobLevel: "Entry Level",
+          salary: "",
+        });
+
+        quillRef.current.setText("");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const jobDescription = quillRef.current.root.innerHTML;
+  //     const { data } = await axios.post(
+  //       `${backendUrl}/api/company/post-job`,
+  //       {
+  //         ...state,
+  //         title: state.jobTitle,
+  //         description: jobDescription,
+  //         category: state.jobCategory,
+  //         location: state.jobLocation,
+  //         level: state.jobLevel,
+  //         salary: state.salary,
+  //       },
+  //       {
+  //         headers: {
+  //           token: companyToken,
+  //         },
+  //       },
+  //     );
+  //     if (data.success) {
+  //       console.log(data.message);
+  //       toast.success(data.message);
+  //       setState({
+  //         jobTitle: "",
+  //         jobCategory: JobCategories[0],
+  //         jobLocation: JobLocations[0],
+  //         jobLevel: "Entry Level",
+  //         salary: "",
+  //       });
+  //       quillRef.current.setText("");
+  //     } else {
+  //       toast.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //   }
+  // };
 
   return (
     <div className="add-job-page">

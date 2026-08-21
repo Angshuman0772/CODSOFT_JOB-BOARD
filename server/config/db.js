@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 // function to connect to mongodb database
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      dbName: "job-portal",
+    });
     console.log("MongoDB Connected");
   } catch (error) {
     console.error("MongoDB Error:", error);
