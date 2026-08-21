@@ -1,5 +1,17 @@
+/**
+ * Recruiter applications review page.
+ *
+ * Purpose: show applicants for posted jobs and expose accept/reject action affordances.
+ */
 import { viewApplicationsPageData } from "../assets/assets";
 import "../styles/ViewApplications.css"
+
+/**
+ * Renders a tabular applicant list for recruiter review workflows.
+ *
+ * @returns {JSX.Element} Applications table UI.
+ * @sideeffects None in current mock-data implementation.
+ */
 const ViewApplications = () => {
   return (
     <div className="applications-page">

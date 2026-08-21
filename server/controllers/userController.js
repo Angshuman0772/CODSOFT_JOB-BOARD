@@ -1,9 +1,21 @@
+/**
+ * User controller.
+ *
+ * Purpose: manage candidate profile state and job application workflows.
+ */
 import User from "../models/User.js";
 import { v2 as cloudinary } from "cloudinary";
 import Job from "../models/Job.js";
 import JobApplication from "../models/JobApplication.js";
 
-// get user data
+/**
+ * Returns the authenticated user's profile, creating a local record when missing.
+ *
+ * @param {import("express").Request} req - Clerk-authenticated request containing req.auth.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends user profile payload.
+ * @sideeffects Reads/writes User collection for just-in-time user provisioning.
+ */
 export const getUserData = async (req, res) => {
   const userId = req.auth?.userId;
 
@@ -17,6 +29,7 @@ export const getUserData = async (req, res) => {
   try {
     let user = await User.findById(userId);
 
+    // Clerk auth can succeed before a Mongo user record exists; create one from claims on first access.
     if (!user) {
       const claims = req.auth?.sessionClaims || {};
       const email = claims.email || claims?.email_addresses?.[0]?.email_address;
@@ -43,7 +56,14 @@ export const getUserData = async (req, res) => {
   }
 };
 
-// apply for a job
+/**
+ * Creates a job application for the authenticated user.
+ *
+ * @param {import("express").Request} req - Request with req.body.jobId and req.auth.userId.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends application result status.
+ * @sideeffects Writes to JobApplication collection after duplicate and existence checks.
+ */
 export const applyForJob = async (req, res) => {
   const { jobId } = req.body;
   const userId = req.auth.userId;
@@ -77,7 +97,14 @@ export const applyForJob = async (req, res) => {
   }
 };
 
-// get all jobs applied by user
+/**
+ * Returns all applications submitted by the authenticated user.
+ *
+ * @param {import("express").Request} req - Request containing req.auth.userId.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends application list with populated company and job references.
+ * @sideeffects Reads from JobApplication and related collections.
+ */
 export const getUserJobApplications = async (req, res) => {
   try {
     const userId = req.auth.userId;
@@ -98,7 +125,14 @@ export const getUserJobApplications = async (req, res) => {
     });
   }
 };
-// update user profile (resume)
+/**
+ * Updates user profile fields currently centered on resume upload.
+ *
+ * @param {import("express").Request} req - Request containing req.auth.userId and parsed resume file.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends update status response.
+ * @sideeffects Uploads files to Cloudinary and persists the updated User document.
+ */
 export const updateUserProfile = async (req, res) => {
   try {
     const userId = req.auth.userId;

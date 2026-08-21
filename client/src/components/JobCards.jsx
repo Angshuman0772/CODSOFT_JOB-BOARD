@@ -1,6 +1,18 @@
+/**
+ * Job card grid component.
+ *
+ * Purpose: render a reusable collection view of job summaries with detail links.
+ */
 import { Link } from "react-router-dom";
 import "./JobCards.css";
 
+/**
+ * Displays a list of job cards.
+ *
+ * @param {{ jobs: Array<{ _id: string, category: string, title: string, companyId: { name: string }, location: string, level: string, salary: number }> }} props - Job collection.
+ * @returns {JSX.Element} Grid of job cards.
+ * @sideeffects None.
+ */
 const JobCards = ({ jobs }) => {
   return (
     <div className="jobs-grid">

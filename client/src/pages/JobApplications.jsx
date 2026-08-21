@@ -1,9 +1,29 @@
+/**
+ * Candidate applications page.
+ *
+ * Purpose: show uploaded resume status and a table of applied jobs.
+ */
 import { useState } from "react";
 import { jobsApplied } from "../assets/assets";
 import Navbar from "../components/Navbar";
 import "../styles/JobApplications.css";
+
+/**
+ * Renders candidate job applications and local resume preview interactions.
+ *
+ * @returns {JSX.Element} Resume card and applications table.
+ * @sideeffects Creates temporary object URLs for selected local resume files.
+ */
 const JobApplications = () => {
   const [resume, setResume] = useState(null);
+
+  /**
+   * Stores selected resume file in local component state.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - File input change event.
+   * @returns {void}
+   * @sideeffects Updates resume state.
+   */
   const handleResumeUpload = (e) => {
     const file = e.target.files[0];
     if (file) {

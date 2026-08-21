@@ -1,3 +1,8 @@
+/**
+ * Job details page.
+ *
+ * Purpose: display a single job posting with full description and metadata.
+ */
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -6,13 +11,20 @@ import { useContext } from "react";
 import { assets } from "../assets/assets";
 import "../styles/JobDetails.css";
 
+/**
+ * Resolves and renders job details for the route id.
+ *
+ * @returns {JSX.Element} Job details view or fallback message.
+ * @sideeffects Fetches backend job details and updates component state.
+ */
 const JobDetails = () => {
   const { id } = useParams();
   const { backendUrl } = useContext(AppContext);
   const [job, setJob] = useState(null);
 
+  // fetch job details from backend
   useEffect(() => {
-    const fetchJob = async () => {
+    const fetchJobDetails = async () => {
       try {
         const response = await fetch(`${backendUrl}/api/jobs/${id}`);
         const data = await response.json();
@@ -22,7 +34,7 @@ const JobDetails = () => {
       }
     };
 
-    fetchJob();
+    fetchJobDetails();
   }, [backendUrl, id]);
 
   if (!job) {
@@ -70,6 +82,7 @@ const JobDetails = () => {
           <div
             className="job-description"
             dangerouslySetInnerHTML={{
+              // Job descriptions are authored in rich-text (Quill) and stored as HTML.
               __html: job.description,
             }}
           />

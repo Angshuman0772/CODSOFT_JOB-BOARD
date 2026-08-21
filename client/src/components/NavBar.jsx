@@ -1,3 +1,8 @@
+/**
+ * Primary site navigation bar.
+ *
+ * Purpose: expose top-level navigation and auth/recruiter entry actions.
+ */
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { BriefcaseBusiness } from "lucide-react";
@@ -5,6 +10,12 @@ import { useClerk, UserButton, useUser } from "@clerk/react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 
+/**
+ * Renders top navigation for candidate and anonymous user states.
+ *
+ * @returns {JSX.Element} Navbar with authentication and navigation controls.
+ * @sideeffects Invokes Clerk sign-in and toggles recruiter login modal state.
+ */
 const Navbar = () => {
   const { openSignIn } = useClerk();
   const { user } = useUser();

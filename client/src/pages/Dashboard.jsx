@@ -1,3 +1,8 @@
+/**
+ * Recruiter dashboard shell.
+ *
+ * Purpose: provide dashboard navigation and nested route outlet for recruiter workflows.
+ */
 import { useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -6,6 +11,12 @@ import { BriefcaseBusiness, PlusCircle, Users } from "lucide-react";
 import DashboardHeader from "../components/DashboardHeader";
 import "../styles/Dashboard.css";
 
+/**
+ * Renders recruiter dashboard layout and enforces default child navigation.
+ *
+ * @returns {JSX.Element} Sidebar-based dashboard shell with nested content outlet.
+ * @sideeffects Redirects to manage-jobs route when company data is available.
+ */
 const Dashboard = () => {
   const navigate = useNavigate();
   const { companyData } = useContext(AppContext);

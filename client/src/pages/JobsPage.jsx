@@ -1,3 +1,8 @@
+/**
+ * Jobs listing page.
+ *
+ * Purpose: render filtered jobs with paginated navigation.
+ */
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import JobCards from "../components/JobCards";
@@ -5,6 +10,12 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import "../styles/JobsPage.css";
 
+/**
+ * Renders the searchable and paginated jobs catalog.
+ *
+ * @returns {JSX.Element} Jobs page content and pagination controls.
+ * @sideeffects Resets page index when search filters change.
+ */
 const Jobs = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 9;

@@ -1,7 +1,20 @@
+/**
+ * Company authentication middleware.
+ *
+ * Purpose: validate recruiter JWT tokens and attach company context to requests.
+ */
 import jwt from "jsonwebtoken";
 import Company from "../models/Company.js";
 
-// protect company routes such that only logged in companies can access them
+/**
+ * Verifies company JWT and populates req.company for downstream handlers.
+ *
+ * @param {import("express").Request} req - Express request object.
+ * @param {import("express").Response} res - Express response object.
+ * @param {import("express").NextFunction} next - Middleware continuation callback.
+ * @returns {Promise<void|import("express").Response>} Sends 401 on auth failure, otherwise forwards request.
+ * @sideeffects Reads req.headers.token and assigns req.company on success.
+ */
 export const protectCompany = async (req, res, next) => {
   const token = req.headers.token;
 

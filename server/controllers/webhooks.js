@@ -1,11 +1,23 @@
+/**
+ * Clerk webhook controller.
+ *
+ * Purpose: synchronize Clerk user lifecycle events into the local User collection.
+ */
 import { Webhook } from "svix";
 
 import User from "../models/User.js";
 
-// api controller function to manage clerk user with database
+/**
+ * Validates a Clerk webhook request and upserts/deletes matching local users.
+ *
+ * @param {import("express").Request} req - Express request with raw webhook payload.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends an empty JSON object for handled events.
+ * @sideeffects Reads Svix headers and writes to User collection based on event type.
+ */
 const clerkWebhooks = async (req, res) => {
   try {
-    // create a svix instance with clerk webhook secret.
+    // Verification must happen against the unmodified raw request body.
     const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
 
     const payload = req.body.toString();
@@ -20,7 +32,7 @@ const clerkWebhooks = async (req, res) => {
     // get data from request body
     const { data, type } = JSON.parse(payload);
 
-    // switch cases for different events
+    // Keep per-event handling explicit to match Clerk's lifecycle payload shapes.
     switch (type) {
       case "user.created": {
         const userData = {

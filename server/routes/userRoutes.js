@@ -1,3 +1,8 @@
+/**
+ * Authenticated user route definitions.
+ *
+ * Purpose: expose candidate profile and job-application endpoints protected by Clerk auth.
+ */
 import express from "express";
 import { requireAuth } from "@clerk/express";
 import {

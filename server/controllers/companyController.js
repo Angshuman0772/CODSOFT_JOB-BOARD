@@ -1,3 +1,8 @@
+/**
+ * Company controller.
+ *
+ * Purpose: handle recruiter authentication and job-management operations.
+ */
 import Company from "../models/Company.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken.js";
@@ -5,7 +10,14 @@ import { v2 as cloudinary } from "cloudinary";
 import Job from "../models/Job.js";
 import JobApplication from "../models/JobApplication.js";
 
-// register new company
+/**
+ * Registers a new company account and stores its logo in Cloudinary.
+ *
+ * @param {import("express").Request} req - Request with company credentials and uploaded image.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends created company payload with auth token.
+ * @sideeffects Writes to Company collection and uploads media to Cloudinary.
+ */
 export const registerCompany = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -65,7 +77,14 @@ export const registerCompany = async (req, res) => {
   }
 };
 
-// company login
+/**
+ * Authenticates an existing company and issues a JWT.
+ *
+ * @param {import("express").Request} req - Request with email and password.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends authenticated company payload and token.
+ * @sideeffects Reads from Company collection.
+ */
 export const loginCompany = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -98,7 +117,14 @@ export const loginCompany = async (req, res) => {
   }
 };
 
-// get company data
+/**
+ * Returns authenticated company profile data from middleware context.
+ *
+ * @param {import("express").Request} req - Request containing req.company.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends company profile payload.
+ * @sideeffects None.
+ */
 export const getCompanyData = async (req, res) => {
   try {
     const company = req.company;
@@ -111,7 +137,14 @@ export const getCompanyData = async (req, res) => {
   }
 };
 
-// post new job
+/**
+ * Creates a new job posting for the authenticated company.
+ *
+ * @param {import("express").Request} req - Request with job fields.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends status and created job payload.
+ * @sideeffects Writes to the Job collection.
+ */
 export const postJob = async (req, res) => {
   const { title, description, location, category, level, salary, date } =
     req.body;
@@ -130,6 +163,7 @@ export const postJob = async (req, res) => {
     });
     await newJob.save();
 
+    // Keep this read to preserve current behavior and flow, even though newJob is available.
     const foundJob = await Job.findById(newJob._id);
     res.json({
       success: true,
@@ -144,16 +178,30 @@ export const postJob = async (req, res) => {
   }
 };
 
-// get company job applicants
+/**
+ * Placeholder for fetching applicants grouped by company jobs.
+ *
+ * @param {import("express").Request} req - Express request object.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} No-op in current implementation.
+ * @sideeffects None.
+ */
 export const getJobApplicants = async (req, res) => {};
 
-// get all jobs posted by company
+/**
+ * Returns all jobs posted by the authenticated company with applicant counts.
+ *
+ * @param {import("express").Request} req - Request containing req.company.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends enriched company job list.
+ * @sideeffects Reads from Job and JobApplication collections.
+ */
 export const getCompanyJobs = async (req, res) => {
   try {
     const companyId = req.company._id;
     const jobs = await Job.find({ companyId });
 
-    // add number of applicants for each job
+    // Applicant count is derived per job because counts are not denormalized on Job documents.
     const jobsData = await Promise.all(
       jobs.map(async (job) => {
         const applicants = await JobApplication.find({ jobId: job._id });
@@ -170,10 +218,24 @@ export const getCompanyJobs = async (req, res) => {
   }
 };
 
-// change job application status
+/**
+ * Placeholder for changing application status from recruiter dashboard actions.
+ *
+ * @param {import("express").Request} req - Express request object.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} No-op in current implementation.
+ * @sideeffects None.
+ */
 export const changeJobApplicationStatus = async (req, res) => {};
 
-// change job visibility
+/**
+ * Toggles visibility for a company-owned job posting.
+ *
+ * @param {import("express").Request} req - Request with target job id in req.body.id.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {Promise<void>} Sends updated job payload.
+ * @sideeffects Updates the Job document visibility flag.
+ */
 export const changeJobVisibility = async (req, res) => {
   try {
     const { id } = req.body;

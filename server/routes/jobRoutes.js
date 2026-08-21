@@ -1,3 +1,8 @@
+/**
+ * Public job route definitions.
+ *
+ * Purpose: expose job listing and job detail endpoints.
+ */
 import express from "express";
 import { getJobs, getJobById } from "../controllers/jobController.js";
 

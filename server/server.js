@@ -1,3 +1,9 @@
+/**
+ * Server bootstrap and middleware wiring for the Job Portal API.
+ *
+ * Purpose: initialize infrastructure dependencies, register middleware,
+ * expose API routes, and start the HTTP server.
+ */
 import "./config/instrument.js";
 import { v2 as cloudinary } from "cloudinary";
 import express from "express";

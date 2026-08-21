@@ -1,3 +1,8 @@
+/**
+ * Job filter sidebar.
+ *
+ * Purpose: manage title/location inputs and checkbox-based category/location filters.
+ */
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { JobCategories, JobLocations } from "../assets/assets";
@@ -5,6 +10,13 @@ import { AppContext } from "../context/AppContext";
 import { X, Search, MapPin } from "lucide-react";
 import "./Sidebar.css";
 
+/**
+ * Renders job filtering controls shared by home and jobs pages.
+ *
+ * @param {{ showSearch?: boolean, redirectOnFilter?: boolean }} props - Sidebar rendering and navigation options.
+ * @returns {JSX.Element} Filter UI panel.
+ * @sideeffects Updates global filter state and may trigger route navigation.
+ */
 const Sidebar = ({ showSearch, redirectOnFilter }) => {
   const {
     searchFilter,
@@ -120,6 +132,7 @@ const Sidebar = ({ showSearch, redirectOnFilter }) => {
               onChange={() => {
                 toggleCategory(category);
 
+                // Home page uses this to jump to full results as soon as a filter is changed.
                 if (redirectOnFilter) {
                   navigate("/jobs");
                 }
@@ -142,6 +155,7 @@ const Sidebar = ({ showSearch, redirectOnFilter }) => {
               onChange={() => {
                 toggleLocation(location);
 
+                // Home page uses this to jump to full results as soon as a filter is changed.
                 if (redirectOnFilter) {
                   navigate("/jobs");
                 }

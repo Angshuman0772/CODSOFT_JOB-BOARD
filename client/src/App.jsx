@@ -1,3 +1,8 @@
+/**
+ * Client route shell.
+ *
+ * Purpose: define public and recruiter dashboard routes and mount global overlays.
+ */
 import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "./context/AppContext";
@@ -12,6 +17,12 @@ import ViewApplications from "./pages/ViewApplications";
 import RecruiterLogin from "./components/RecruiterLogin";
 import { ToastContainer } from "react-toastify";
 
+/**
+ * Root application component that maps URL paths to page components.
+ *
+ * @returns {JSX.Element} App-level route tree and shared UI wrappers.
+ * @sideeffects Reads global auth/modal state from AppContext.
+ */
 const App = () => {
   const { showRecruiterLogin, companyToken } = useContext(AppContext);
   return (

@@ -1,3 +1,8 @@
+/**
+ * Client application entry point.
+ *
+ * Purpose: mount the React tree with Clerk auth, routing, and global app context.
+ */
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { ClerkProvider } from "@clerk/react";

@@ -1,3 +1,8 @@
+/**
+ * Home hero section.
+ *
+ * Purpose: provide prominent search inputs and quick platform credibility stats.
+ */
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
@@ -12,12 +17,24 @@ import {
 } from "react-icons/si";
 import "./Hero.css";
 
+/**
+ * Renders the homepage hero and dispatches search criteria into global state.
+ *
+ * @returns {JSX.Element} Hero layout with search controls.
+ * @sideeffects Updates AppContext filters and navigates to jobs page.
+ */
 const Hero = () => {
   const navigate = useNavigate();
   const { setSearchFilter, setIsSearched } = useContext(AppContext);
   const titleRef = useRef(null);
   const locationRef = useRef(null);
 
+  /**
+   * Applies current input values to the global search filter and navigates to results.
+   *
+   * @returns {void}
+   * @sideeffects Mutates AppContext search state and performs route navigation.
+   */
   const handleSearch = () => {
     const title = titleRef.current.value;
     const location = locationRef.current.value;

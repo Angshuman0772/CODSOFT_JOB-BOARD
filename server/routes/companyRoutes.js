@@ -1,3 +1,8 @@
+/**
+ * Company route definitions.
+ *
+ * Purpose: map recruiter/company endpoints to controller handlers and middleware.
+ */
 import express from "express";
 import {
   registerCompany,

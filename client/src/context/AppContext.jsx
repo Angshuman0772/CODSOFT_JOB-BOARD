@@ -1,3 +1,8 @@
+/**
+ * Global client-side application context.
+ *
+ * Purpose: centralize shared UI state, auth-linked profile data, and job filtering behavior.
+ */
 import { createContext, useCallback, useState } from "react";
 import { jobsData } from "../assets/assets";
 import { useEffect } from "react";
@@ -7,6 +12,13 @@ import { useUser, useAuth } from "@clerk/react";
 
 const AppContext = createContext();
 
+/**
+ * Context provider for global app state and actions.
+ *
+ * @param {{ children: import("react").ReactNode }} props - Provider props with nested app tree.
+ * @returns {JSX.Element} Context provider wrapper.
+ * @sideeffects Reads/writes localStorage, performs backend API requests, and triggers toast notifications.
+ */
 export const AppContextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const { user } = useUser();
@@ -74,7 +86,12 @@ export const AppContextProvider = (props) => {
     }
   }, [companyToken, backendUrl]);
 
-  // function to fetch user data
+  /**
+   * Fetches profile data for the currently authenticated Clerk user.
+   *
+   * @returns {Promise<void>} Resolves after state is updated or error is reported.
+   * @sideeffects Requests an auth token, performs network I/O, updates userData state, and emits toasts.
+   */
   const fetchUserData = useCallback(async () => {
     try {
       const token = await getToken();
@@ -101,6 +118,13 @@ export const AppContextProvider = (props) => {
     }
   }, [user, fetchUserData]);
 
+  /**
+   * Toggles a category in the selected category filter list.
+   *
+   * @param {string} category - Category label to toggle.
+   * @returns {void}
+   * @sideeffects Updates searchFilter state.
+   */
   const toggleCategory = (category) => {
     setSearchFilter((prev) => ({
       ...prev,
@@ -110,6 +134,13 @@ export const AppContextProvider = (props) => {
     }));
   };
 
+  /**
+   * Toggles a location in the selected location filter list.
+   *
+   * @param {string} location - Location label to toggle.
+   * @returns {void}
+   * @sideeffects Updates searchFilter state.
+   */
   const toggleLocation = (location) => {
     setSearchFilter((prev) => ({
       ...prev,
@@ -119,6 +150,7 @@ export const AppContextProvider = (props) => {
     }));
   };
 
+  // Multiple filter groups are combined with AND semantics to keep search behavior predictable.
   const filteredJobs = jobsData.filter((job) => {
     const titleMatch =
       !searchFilter.title ||

@@ -1,3 +1,8 @@
+/**
+ * Home page.
+ *
+ * Purpose: present hero/search entry points and a featured subset of jobs.
+ */
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
@@ -7,11 +12,18 @@ import JobCards from "../components/JobCards";
 import Sidebar from "../components/Sidebar";
 import "../styles/Home.css";
 
+/**
+ * Renders the landing page and fetches jobs for featured cards.
+ *
+ * @returns {JSX.Element} Home layout with hero, filters, and featured jobs.
+ * @sideeffects Performs a backend fetch and updates local component state.
+ */
 const Home = () => {
   const { showFilters, setShowFilters, backendUrl } = useContext(AppContext);
   const [jobs, setJobs] = useState([]);
   const [error, setError] = useState("");
 
+  // fetch jobs from backend
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -23,7 +35,7 @@ const Home = () => {
 
         const data = await response.json();
 
-        // Supports either an array response or { jobs: [...] }
+        // Supports either legacy array payloads or object payloads from newer endpoints.
         setJobs(Array.isArray(data) ? data : data.jobs || []);
       } catch (err) {
         setError(err.message);

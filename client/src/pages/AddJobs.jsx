@@ -1,3 +1,8 @@
+/**
+ * Recruiter add-job page.
+ *
+ * Purpose: compose and publish a new job posting from the dashboard.
+ */
 import { useState, useEffect, useRef } from "react";
 import { JobCategories, JobLocations } from "../assets/assets";
 import { useContext } from "react";
@@ -8,6 +13,12 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "../styles/AddJobs.css";
 
+/**
+ * Renders the job publication form and submits recruiter-authenticated requests.
+ *
+ * @returns {JSX.Element} Add-job form with rich-text description editor.
+ * @sideeffects Initializes a Quill editor instance and performs API POST requests.
+ */
 const AddJobs = () => {
   const [state, setState] = useState({
     jobTitle: "",
@@ -23,6 +34,7 @@ const AddJobs = () => {
   const { backendUrl, companyToken } = useContext(AppContext);
 
   useEffect(() => {
+    // Guard against duplicate editor initialization across re-renders.
     if (!editorRef.current || quillRef.current) return;
 
     quillRef.current = new Quill(editorRef.current, {
@@ -40,6 +52,13 @@ const AddJobs = () => {
     });
   }, []);
 
+  /**
+   * Submits a new job payload generated from form state and editor content.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e - Form submit event.
+   * @returns {Promise<void>} Resolves after request handling and UI feedback.
+   * @sideeffects Performs network I/O, emits toast notifications, and resets local form/editor state.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -86,47 +105,6 @@ const AddJobs = () => {
       toast.error(error.response?.data?.message || error.message);
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const jobDescription = quillRef.current.root.innerHTML;
-  //     const { data } = await axios.post(
-  //       `${backendUrl}/api/company/post-job`,
-  //       {
-  //         ...state,
-  //         title: state.jobTitle,
-  //         description: jobDescription,
-  //         category: state.jobCategory,
-  //         location: state.jobLocation,
-  //         level: state.jobLevel,
-  //         salary: state.salary,
-  //       },
-  //       {
-  //         headers: {
-  //           token: companyToken,
-  //         },
-  //       },
-  //     );
-  //     if (data.success) {
-  //       console.log(data.message);
-  //       toast.success(data.message);
-  //       setState({
-  //         jobTitle: "",
-  //         jobCategory: JobCategories[0],
-  //         jobLocation: JobLocations[0],
-  //         jobLevel: "Entry Level",
-  //         salary: "",
-  //       });
-  //       quillRef.current.setText("");
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //   }
-  // };
 
   return (
     <div className="add-job-page">
