@@ -1,12 +1,29 @@
 import Navbar from "../components/Navbar";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { jobsData, assets } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
+import { useContext } from "react";
+import { assets } from "../assets/assets";
 import "../styles/JobDetails.css";
 
 const JobDetails = () => {
   const { id } = useParams();
+  const { backendUrl } = useContext(AppContext);
+  const [job, setJob] = useState(null);
 
-  const job = jobsData.find((job) => job._id === id);
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        const response = await fetch(`${backendUrl}/api/jobs/${id}`);
+        const data = await response.json();
+        setJob(data.success ? data.job : null);
+      } catch {
+        setJob(null);
+      }
+    };
+
+    fetchJob();
+  }, [backendUrl, id]);
 
   if (!job) {
     return <h2>Job not found</h2>;

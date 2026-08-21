@@ -1,23 +1,47 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import NavBar from "../components/NavBar";
+import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import JobCards from "../components/JobCards";
 import Sidebar from "../components/Sidebar";
 import "../styles/Home.css";
-import { jobsData } from "../assets/assets";
 
 const Home = () => {
-  const { showFilters, setShowFilters } = useContext(AppContext);
+  const { showFilters, setShowFilters, backendUrl } = useContext(AppContext);
+  const [jobs, setJobs] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch(`${backendUrl}/api/jobs`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch jobs");
+        }
+
+        const data = await response.json();
+
+        // Supports either an array response or { jobs: [...] }
+        setJobs(Array.isArray(data) ? data : data.jobs || []);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchJobs();
+  }, [backendUrl]);
+
   return (
     <div>
-      <NavBar />
+      <Navbar />
       <Hero />
+
       <div className="job-listing-container">
         <button
           className="mobile-filter-btn"
-          type="button" 
+          type="button"
           onClick={() => setShowFilters((prev) => !prev)}
           aria-expanded={showFilters}
           aria-controls="job-filters"
@@ -27,7 +51,6 @@ const Home = () => {
 
         <Sidebar redirectOnFilter={true} />
 
-        {/* Job Listings */}
         <section className="featured-job-listings">
           <div className="featured-header">
             <div>
@@ -40,7 +63,8 @@ const Home = () => {
             </Link>
           </div>
 
-          <JobCards jobs={jobsData.slice(0, 6)} />
+          {error && <p className="error-message">{error}</p>}
+          {!error && <JobCards jobs={jobs.slice(0, 6)} />}
         </section>
       </div>
     </div>

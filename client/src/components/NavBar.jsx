@@ -2,10 +2,10 @@ import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { BriefcaseBusiness } from "lucide-react";
 import { useClerk, UserButton, useUser } from "@clerk/react";
-import "./NavBar.css";
+import "./Navbar.css";
 import { Link } from "react-router-dom";
 
-const NavBar = () => {
+const Navbar = () => {
   const { openSignIn } = useClerk();
   const { user } = useUser();
   const { setshowRecruiterLogin } = useContext(AppContext);
@@ -43,4 +43,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;

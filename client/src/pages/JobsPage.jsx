@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
 import JobCards from "../components/JobCards";
 import Sidebar from "../components/Sidebar";
-import NavBar from "../components/NavBar";
+import Navbar from "../components/Navbar";
 import "../styles/JobsPage.css";
 
 const Jobs = () => {
@@ -23,7 +23,7 @@ const Jobs = () => {
 
   return (
     <>
-      <NavBar />
+      <Navbar />
       <div className="page-header">
         <h1 className="page-title">All Jobs</h1>
       </div>
