@@ -1,9 +1,19 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 import { BriefcaseBusiness, PlusCircle, Users } from "lucide-react";
 import DashboardHeader from "../components/DashboardHeader";
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const { companyData } = useContext(AppContext);
+  useEffect(() => {
+    if (companyData) {
+      navigate("/dashboard/manage-jobs");
+    }
+  }, [companyData, navigate]);
   return (
     <>
       <DashboardHeader />
