@@ -2,10 +2,21 @@ import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 import { BriefcaseBusiness } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./DashboardHeader.css";
 
 const DashboardHeader = () => {
-  const { companyData } = useContext(AppContext);
+  const navigate = useNavigate();
+  const { companyData, setCompanyData, setCompanyToken } =
+    useContext(AppContext);
+
+  const handleLogout = () => {
+    setCompanyToken(null);
+    localStorage.removeItem("companyToken");
+    localStorage.removeItem("token");
+    setCompanyData(null);
+    navigate("/");
+  };
 
   return (
     <header className="dashboard-header">
@@ -24,6 +35,10 @@ const DashboardHeader = () => {
             alt="Spotify Logo"
             className="company-logo"
           />
+
+          <button type="button" className="logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       )}
     </header>
