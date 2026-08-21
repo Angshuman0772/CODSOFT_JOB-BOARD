@@ -1,13 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import { jobsData } from "../assets/assets";
 import { useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useUser, useAuth } from "@clerk/react";
 
 const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const { user } = useUser();
+  const { getToken } = useAuth();
 
   // State to hold the search filter values
   const [searchFilter, setSearchFilter] = useState({
@@ -29,6 +32,10 @@ export const AppContextProvider = (props) => {
   // State to hold the company token and company data for recruiter authentication
   const [companyToken, setCompanyToken] = useState(null);
   const [companyData, setCompanyData] = useState(null);
+
+  // store name, email, image, and other data of the logged-in user
+  const [userData, setUserData] = useState(null);
+  const [userApplications] = useState([]);
 
   // Check for an existing recruiter login and restore authentication state
   useEffect(() => {
@@ -66,6 +73,33 @@ export const AppContextProvider = (props) => {
       fetchCompanyData();
     }
   }, [companyToken, backendUrl]);
+
+  // function to fetch user data
+  const fetchUserData = useCallback(async () => {
+    try {
+      const token = await getToken();
+
+      const { data } = await axios.get(`${backendUrl}/api/user/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (data.success) {
+        setUserData(data.user || data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [backendUrl, getToken]);
+
+  useEffect(() => {
+    if (user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      fetchUserData();
+    }
+  }, [user, fetchUserData]);
 
   const toggleCategory = (category) => {
     setSearchFilter((prev) => ({
@@ -121,6 +155,8 @@ export const AppContextProvider = (props) => {
     setCompanyToken,
     companyData,
     setCompanyData,
+    userData,
+    userApplications,
     backendUrl,
   };
 

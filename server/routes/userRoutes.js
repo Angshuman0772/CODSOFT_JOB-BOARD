@@ -1,4 +1,5 @@
 import express from "express";
+import { requireAuth } from "@clerk/express";
 import {
   getUserData,
   applyForJob,
@@ -8,6 +9,8 @@ import {
 import upload from "../config/multer.js";
 
 const router = express.Router();
+
+router.use(requireAuth());
 
 // get user data
 router.get("/user", getUserData);

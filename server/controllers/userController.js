@@ -5,13 +5,39 @@ import JobApplication from "../models/JobApplication.js";
 
 // get user data
 export const getUserData = async (req, res) => {
-  const userId = req.auth.userId;
+  const userId = req.auth?.userId;
+
+  if (!userId) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized",
+    });
+  }
+
   try {
-    const user = await User.findById(userId);
+    let user = await User.findById(userId);
+
     if (!user) {
-      return res.json({ success: false, message: "User not found" });
+      const claims = req.auth?.sessionClaims || {};
+      const email = claims.email || claims?.email_addresses?.[0]?.email_address;
+
+      if (!email) {
+        return res.status(400).json({
+          success: false,
+          message: "User email not available",
+        });
+      }
+
+      user = await User.create({
+        _id: userId,
+        email,
+        name: claims.full_name || claims.name || "User",
+        image: claims.picture || "",
+        resume: "",
+      });
     }
-    return res.json({ success: true, data: user });
+
+    return res.json({ success: true, user });
   } catch (error) {
     return res.json({ success: false, message: "Error fetching user data" });
   }
