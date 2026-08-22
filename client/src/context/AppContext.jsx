@@ -95,33 +95,23 @@ export const AppContextProvider = (props) => {
    * @returns {Promise<void>} Resolves after state is updated or error is reported.
    * @sideeffects Requests an auth token, performs network I/O, updates userData state, and emits toasts.
    */
-  const fetchUserData = useCallback(
-    async (retries = 3) => {
-      try {
-        const token = await getToken();
-        const { data } = await axios.get(`${backendUrl}/api/user/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (data.success) {
-          setUserData(data.user || data.data);
-        } else if (retries > 0 && data.message?.includes("not found")) {
-          // Webhook may still be syncing the user after sign-up
-          setTimeout(() => fetchUserData(retries - 1), 2000);
-        } else {
-          toast.error(data.message);
-        }
-      } catch (error) {
-        if (retries > 0) {
-          setTimeout(() => fetchUserData(retries - 1), 2000);
-        } else {
-          toast.error(error.message);
-        }
+  const fetchUserData = useCallback(async () => {
+    try {
+      const token = await getToken();
+
+      const { data } = await axios.get(`${backendUrl}/api/user/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (data.success) {
+        setUserData(data.user);
       }
-    },
-    [backendUrl, getToken],
-  );
+    } catch (error) {
+      console.error(error);
+    }
+  }, [backendUrl, getToken]);
 
   useEffect(() => {
     if (user) {
