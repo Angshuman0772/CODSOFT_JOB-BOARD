@@ -10,6 +10,7 @@ import { AppContext } from "../context/AppContext";
 import { useContext } from "react";
 import { assets } from "../assets/assets";
 import { toast } from "react-toastify";
+import { useAuth } from "@clerk/react";
 import "../styles/JobDetails.css";
 
 /**
@@ -20,7 +21,8 @@ import "../styles/JobDetails.css";
  */
 const JobDetails = () => {
   const { id } = useParams();
-  const { backendUrl, userData, userApplications } = useContext(AppContext);
+  const { getToken } = useAuth();
+  const { backendUrl, userData } = useContext(AppContext);
   const [job, setJob] = useState(null);
 
   // fetch job details from backend
@@ -49,7 +51,22 @@ const JobDetails = () => {
       if (!userData?.resume) {
         return toast.error("Please upload a resume before applying");
       }
-      // proceed with actual apply logic here
+      const token = await getToken();
+      const response = await fetch(`${backendUrl}/api/user/apply`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ jobId: job._id }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
       toast.error(
         error.message || "An error occurred while applying for the job",
