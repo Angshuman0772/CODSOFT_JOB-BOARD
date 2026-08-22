@@ -9,51 +9,27 @@ import Job from "../models/Job.js";
 import JobApplication from "../models/JobApplication.js";
 
 /**
- * Returns the authenticated user's profile, creating a local record when missing.
+ * Fetch the currently authenticated user's data from MongoDB.
  *
- * @param {import("express").Request} req - Clerk-authenticated request containing req.auth.
- * @param {import("express").Response} res - Express response object.
- * @returns {Promise<void>} Sends user profile payload.
- * @sideeffects Reads/writes User collection for just-in-time user provisioning.
+ * Purpose:
+ * - Uses the Clerk user ID from the authenticated request.
+ * - Retrieves the corresponding user document from the database.
+ * - Returns the user data to the frontend.
+ *
+ * Note:
+ * - This function does NOT create a user.
+ * - User creation is handled by the Clerk webhook (user.created event).
  */
 export const getUserData = async (req, res) => {
-  const userId = req.auth?.userId;
-
-  if (!userId) {
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorized",
-    });
-  }
-
+  const userId = req.auth.userId;
   try {
-    let user = await User.findById(userId);
-
-    // Clerk auth can succeed before a Mongo user record exists; create one from claims on first access.
+    const user = await User.findById(userId);
     if (!user) {
-      const claims = req.auth?.sessionClaims || {};
-      const email = claims.email || claims?.email_addresses?.[0]?.email_address;
-
-      if (!email) {
-        return res.status(400).json({
-          success: false,
-          message: "User email not available",
-        });
-      }
-
-      user = await User.create({
-        _id: userId,
-        email,
-        name: claims.full_name || claims.name || "User",
-        image: claims.picture || "https://www.gravatar.com/avatar/?d=mp",
-        resume: "",
-      });
+      return res.json({ success: false, message: "User not found" });
     }
-
-    return res.json({ success: true, user });
+    res.json({ success: true, user });
   } catch (error) {
-    // console.error("getUserData error:", error);
-    return res.json({ success: false, message: "Error fetching user data" });
+    res.json({ success: false, message: error.message });
   }
 };
 
