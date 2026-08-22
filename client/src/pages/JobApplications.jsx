@@ -1,40 +1,65 @@
-/**
- * Candidate applications page.
- *
- * Purpose: show uploaded resume status and a table of applied jobs.
- */
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { jobsApplied } from "../assets/assets";
+import { useAuth } from "@clerk/react";
+import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
 import "../styles/JobApplications.css";
 
-/**
- * Renders candidate job applications and local resume preview interactions.
- *
- * @returns {JSX.Element} Resume card and applications table.
- * @sideeffects Creates temporary object URLs for selected local resume files.
- */
 const JobApplications = () => {
-  /**
-   * Stores selected resume file in local component state.
-   *
-   * @param {React.ChangeEvent<HTMLInputElement>} e - File input change event.
-   * @returns {void}
-   * @sideeffects Updates resume state.
-   */
+  const { getToken } = useAuth();
 
-  const { resume, setResume } = useContext(AppContext);
+  const { resume, setResume, backendUrl, userData, fetchUserData } =
+    useContext(AppContext);
 
-  const handleResumeUpload = (e) => {
+  const handleFileSelect = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setResume(file);
+
+    if (!file) return;
+
+    setResume(file);
+  };
+
+  const handleResumeUpload = async () => {
+    if (!resume) {
+      toast.error("Please select a resume first");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("resume", resume);
+
+      const token = await getToken();
+
+      const response = await fetch(`${backendUrl}/api/user/update-profile`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success(data.message);
+
+        await fetchUserData();
+
+        setResume(null);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
+
   return (
     <>
       <Navbar />
+
       <div className="page-header">
         <h1 className="page-title">Job Applications</h1>
       </div>
@@ -43,21 +68,9 @@ const JobApplications = () => {
         <div className="resume-card-content">
           <h3>Resume</h3>
 
-          {!resume ? (
-            <>
-              <p>No resume uploaded</p>
+          {!resume && !userData?.resume && <p>No resume uploaded</p>}
 
-              <label className="upload-area">
-                Select Resume
-                <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleResumeUpload}
-                  hidden
-                />
-              </label>
-            </>
-          ) : (
+          {resume && (
             <a
               href={URL.createObjectURL(resume)}
               target="_blank"
@@ -66,22 +79,35 @@ const JobApplications = () => {
               📄 {resume.name}
             </a>
           )}
+
+          {!resume && userData?.resume && (
+            <a href={userData.resume} target="_blank" rel="noopener noreferrer">
+              📄 Uploaded Resume
+            </a>
+          )}
         </div>
 
         <div className="resume-card-buttons">
+          <label className="btn">
+            {resume || userData?.resume ? "Upload New" : "Select Resume"}
+
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={handleFileSelect}
+              hidden
+            />
+          </label>
+
           {resume && (
             <>
-              <label className="btn">
-                Upload New
-                <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleResumeUpload}
-                  hidden
-                />
-              </label>
+              <button type="button" onClick={handleResumeUpload}>
+                Save Resume
+              </button>
 
-              <button onClick={() => setResume(null)}>Remove</button>
+              <button type="button" onClick={() => setResume(null)}>
+                Remove
+              </button>
             </>
           )}
         </div>
@@ -91,6 +117,7 @@ const JobApplications = () => {
         <div className="stats-header">
           <h3>Jobs Applied</h3>
         </div>
+
         <div className="stats-grid">
           <table className="applications-table">
             <thead>
@@ -99,7 +126,7 @@ const JobApplications = () => {
                 <th>Job Title</th>
                 <th>Location</th>
                 <th>Date</th>
-                <th>Action</th>
+                <th>Status</th>
               </tr>
             </thead>
 

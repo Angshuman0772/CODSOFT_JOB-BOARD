@@ -197,6 +197,7 @@ export const AppContextProvider = (props) => {
     backendUrl,
     resume,
     setResume,
+    fetchUserData,
   };
 
   return (

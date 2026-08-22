@@ -47,7 +47,7 @@ const JobDetails = () => {
       if (!userData) {
         return toast.error("Please login to apply for jobs");
       }
-      if (!resume) {
+      if (!userData?.resume) {
         return toast.error("Please upload a resume before applying");
       }
       // proceed with actual apply logic here

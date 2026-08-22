@@ -137,7 +137,7 @@ export const getUserJobApplications = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
   try {
     const userId = req.auth.userId;
-    const resumeFile = req.resumeFile;
+    const resumeFile = req.file;
     const userData = await User.findById(userId);
 
     if (resumeFile) {
