@@ -11,25 +11,29 @@ import JobApplication from "../models/JobApplication.js";
 /**
  * Fetch the currently authenticated user's data from MongoDB.
  *
- * Purpose:
- * - Uses the Clerk user ID from the authenticated request.
- * - Retrieves the corresponding user document from the database.
- * - Returns the user data to the frontend.
- *
- * Note:
- * - This function does NOT create a user.
- * - User creation is handled by the Clerk webhook (user.created event).
+ * Read-only: user creation and updates are handled exclusively by the
+ * Clerk webhook (see controllers/webhooks.js).
  */
 export const getUserData = async (req, res) => {
   const userId = req.auth.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
   try {
     const user = await User.findById(userId);
+
     if (!user) {
-      return res.json({ success: false, message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
+
     res.json({ success: true, user });
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -115,6 +119,10 @@ export const updateUserProfile = async (req, res) => {
     const userId = req.auth.userId;
     const resumeFile = req.file;
     const userData = await User.findById(userId);
+
+    if (!userData) {
+      return res.json({ success: false, message: "User not found" });
+    }
 
     if (resumeFile) {
       const resumeUpload = await cloudinary.uploader.upload(resumeFile.path);

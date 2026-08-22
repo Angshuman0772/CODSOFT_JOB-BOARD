@@ -61,13 +61,24 @@ Create `server/.env`:
 PORT=5000
 MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>/<database>
 JWT_SECRET=replace-with-a-long-random-secret
+CLERK_SECRET_KEY=your-clerk-secret-key
+CLERK_WEBHOOK_SECRET=your-clerk-webhook-signing-secret
 CLOUDINARY_CLOUD_NAME=your-cloud-name
 CLOUDINARY_API_KEY=your-api-key
 CLOUDINARY_API_SECRET=your-api-secret
-CLERK_WEBHOOK_SECRET=your-clerk-webhook-signing-secret
 ```
 
-`MONGODB_URI`, `JWT_SECRET`, and the Cloudinary values are required for the corresponding server features. Keep this file out of version control.
+`MONGODB_URI`, `JWT_SECRET`, `CLERK_SECRET_KEY`, and the Cloudinary values are required for the corresponding server features. Keep this file out of version control.
+
+### Clerk webhook setup (required for user sync)
+
+In the [Clerk Dashboard](https://dashboard.clerk.com) → **Webhooks** → **Add Endpoint**:
+
+1. **Endpoint URL:** `https://<your-vercel-server-domain>/webhooks`
+2. **Subscribe to events:** `user.created`, `user.updated`, `user.deleted`
+3. Copy the **Signing Secret** into `CLERK_WEBHOOK_SECRET` on Vercel
+
+The `CLERK_SECRET_KEY` (from Clerk → API Keys) must also be set on Vercel — without it, `@clerk/express` cannot verify login tokens and API routes return 500.
 
 ### 3. Configure the client
 

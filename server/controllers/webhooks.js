@@ -54,12 +54,22 @@ const clerkWebhooks = async (req, res) => {
 
     switch (type) {
       case "user.created": {
+        const email = data.email_addresses?.[0]?.email_address;
+
+        if (!email) {
+          console.error("user.created webhook missing email for:", data.id);
+          return res.status(400).json({
+            success: false,
+            message: "Email is required to create a user",
+          });
+        }
+
         const userData = {
           _id: data.id,
-          email: data.email_addresses?.[0]?.email_address,
+          email,
           name:
             `${data.first_name || ""} ${data.last_name || ""}`.trim() || "User",
-          image: data.image_url,
+          image: data.image_url || "https://www.gravatar.com/avatar/?d=mp",
           resume: "",
         };
 
@@ -81,7 +91,7 @@ const clerkWebhooks = async (req, res) => {
           email: data.email_addresses?.[0]?.email_address,
           name:
             `${data.first_name || ""} ${data.last_name || ""}`.trim() || "User",
-          image: data.image_url,
+          image: data.image_url || "https://www.gravatar.com/avatar/?d=mp",
         };
 
         console.log("Updating user:", data.id);
