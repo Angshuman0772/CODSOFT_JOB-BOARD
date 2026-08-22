@@ -113,12 +113,32 @@ export const AppContextProvider = (props) => {
     }
   }, [backendUrl, getToken]);
 
+  // function to fetch the user's job applications from the backend
+  const fetchUserApplications = useCallback(async () => {
+    try {
+      const token = await getToken();
+
+      const { data } = await axios.get(backendUrl + "/api/user/applications", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (data.success) {
+        setUserApplications(data.applications);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [backendUrl, getToken]);
   useEffect(() => {
     if (user) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchUserData();
+      fetchUserApplications();
     }
-  }, [user, fetchUserData]);
+  }, [user, fetchUserData, fetchUserApplications]);
 
   /**
    * Toggles a category in the selected category filter list.
@@ -197,6 +217,7 @@ export const AppContextProvider = (props) => {
     resume,
     setResume,
     fetchUserData,
+    fetchUserApplications,
   };
 
   return (

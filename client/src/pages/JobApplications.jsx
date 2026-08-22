@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
-import { jobsApplied } from "../assets/assets";
 import { useAuth } from "@clerk/react";
 import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
@@ -9,8 +8,14 @@ import "../styles/JobApplications.css";
 const JobApplications = () => {
   const { getToken } = useAuth();
 
-  const { resume, setResume, backendUrl, userData, fetchUserData } =
-    useContext(AppContext);
+  const {
+    resume,
+    setResume,
+    backendUrl,
+    userData,
+    fetchUserData,
+    userApplications,
+  } = useContext(AppContext);
 
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
@@ -131,18 +136,18 @@ const JobApplications = () => {
             </thead>
 
             <tbody>
-              {jobsApplied.map((job, index) => (
+              {userApplications.map((job, index) => (
                 <tr key={index}>
                   <td>
                     <div className="company-cell">
-                      <img src={job.logo} alt={job.company} />
-                      <span>{job.company}</span>
+                      <img src={job.companyId.image} alt={job.companyId.name} />
+                      <span>{job.companyId.name}</span>
                     </div>
                   </td>
 
-                  <td>{job.title}</td>
-                  <td>{job.location}</td>
-                  <td>{job.date}</td>
+                  <td>{job.jobId.title}</td>
+                  <td>{job.jobId.location}</td>
+                  <td>{job.jobId.date}</td>
 
                   <td>
                     <span
