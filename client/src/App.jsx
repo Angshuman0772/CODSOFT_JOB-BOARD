@@ -3,7 +3,7 @@
  *
  * Purpose: define public and recruiter dashboard routes and mount global overlays.
  */
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "./context/AppContext";
 import Home from "./pages/Home";
@@ -24,7 +24,7 @@ import { ToastContainer } from "react-toastify";
  * @sideeffects Reads global auth/modal state from AppContext.
  */
 const App = () => {
-  const { showRecruiterLogin, companyToken } = useContext(AppContext);
+  const { showRecruiterLogin } = useContext(AppContext);
   return (
     <div>
       {showRecruiterLogin && <RecruiterLogin />}
@@ -35,13 +35,10 @@ const App = () => {
         <Route path="/applications" element={<JobApplications />} />
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/dashboard" element={<Dashboard />}>
-          {companyToken ? (
-            <>
-              <Route path="add-jobs" element={<AddJobs />} />
-              <Route path="manage-jobs" element={<ManageJobs />} />
-              <Route path="view-applications" element={<ViewApplications />} />
-            </>
-          ) : null}
+          <Route index element={<Navigate to="manage-jobs" replace />} />
+          <Route path="add-jobs" element={<AddJobs />} />
+          <Route path="manage-jobs" element={<ManageJobs />} />
+          <Route path="view-applications" element={<ViewApplications />} />
         </Route>
       </Routes>
     </div>

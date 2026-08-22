@@ -20,8 +20,7 @@ import "../styles/JobDetails.css";
  */
 const JobDetails = () => {
   const { id } = useParams();
-  const { backendUrl, userData, userApplications, resume } =
-    useContext(AppContext);
+  const { backendUrl, userData, userApplications } = useContext(AppContext);
   const [job, setJob] = useState(null);
 
   // fetch job details from backend
