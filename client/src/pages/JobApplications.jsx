@@ -147,7 +147,13 @@ const JobApplications = () => {
 
                   <td>{job.jobId.title}</td>
                   <td>{job.jobId.location}</td>
-                  <td>{job.jobId.date}</td>
+                  <td>
+                    {new Date(job.date).toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </td>
 
                   <td>
                     <span
