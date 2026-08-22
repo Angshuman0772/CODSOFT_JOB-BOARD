@@ -98,7 +98,7 @@ export const AppContextProvider = (props) => {
   const fetchUserData = useCallback(async () => {
     try {
       const token = await getToken();
-      console.log("Clerk token:", token);
+      // console.log("Clerk token:", token);
       const { data } = await axios.get(`${backendUrl}/api/user/user`, {
         headers: {
           Authorization: `Bearer ${token}`,

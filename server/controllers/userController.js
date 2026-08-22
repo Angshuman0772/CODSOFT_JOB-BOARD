@@ -45,13 +45,14 @@ export const getUserData = async (req, res) => {
         _id: userId,
         email,
         name: claims.full_name || claims.name || "User",
-        image: claims.picture || "",
+        image: claims.picture || "https://www.gravatar.com/avatar/?d=mp",
         resume: "",
       });
     }
 
     return res.json({ success: true, user });
   } catch (error) {
+    // console.error("getUserData error:", error);
     return res.json({ success: false, message: "Error fetching user data" });
   }
 };

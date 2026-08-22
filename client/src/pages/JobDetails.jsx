@@ -42,8 +42,6 @@ const JobDetails = () => {
   if (!job) {
     return <h2>Job not found</h2>;
   }
-
-  console.log("userData in JobDetails:", userData);
   const applyHandler = async () => {
     try {
       if (!userData) {
