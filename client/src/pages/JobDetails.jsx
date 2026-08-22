@@ -22,8 +22,15 @@ import "../styles/JobDetails.css";
 const JobDetails = () => {
   const { id } = useParams();
   const { getToken } = useAuth();
-  const { backendUrl, userData } = useContext(AppContext);
+  const { backendUrl, userData, userApplications, fetchUserApplications } =
+    useContext(AppContext);
   const [job, setJob] = useState(null);
+
+  // Check if the user has already applied for this job
+  const hasApplied = userApplications.some(
+    (application) =>
+      application.jobId?._id === job?._id || application.jobId === job?._id,
+  );
 
   // fetch job details from backend
   useEffect(() => {
@@ -64,6 +71,7 @@ const JobDetails = () => {
 
       if (data.success) {
         toast.success(data.message);
+        fetchUserApplications();
       } else {
         toast.error(data.message);
       }
@@ -124,7 +132,7 @@ const JobDetails = () => {
         {/* RIGHT */}
         <aside className="job-sidebar">
           <Link onClick={applyHandler} to="/applications" className="apply-btn">
-            Apply Job
+            {hasApplied ? "Already Applied" : "Apply Job"}
           </Link>
 
           <div className="job-overview">
