@@ -130,7 +130,7 @@ const JobDetails = () => {
         </div>
 
         {/* RIGHT */}
-        <aside className="job-sidebar">
+        <aside className="job-details-sidebar">
           <Link onClick={applyHandler} to="/applications" className="apply-btn">
             {hasApplied ? "Already Applied" : "Apply Job"}
           </Link>

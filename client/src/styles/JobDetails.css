@@ -122,7 +122,7 @@
    SIDEBAR
 ========================= */
 
-.job-sidebar {
+.job-details-sidebar {
   position: sticky;
   top: 100px;
 
@@ -205,7 +205,7 @@
     grid-template-columns: 1fr;
   }
 
-  .job-sidebar {
+  .job-details-sidebar {
     position: static;
   }
 }
