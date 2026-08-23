@@ -4,7 +4,6 @@
  * Purpose: centralize shared UI state, auth-linked profile data, and job filtering behavior.
  */
 import { createContext, useCallback, useState } from "react";
-import { jobsData } from "../assets/assets";
 import { useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -31,6 +30,9 @@ export const AppContextProvider = (props) => {
     selectedCategories: [],
     selectedLocations: [],
   });
+
+  // State to hold the jobs fetched from the backend
+  const [jobs, setJobs] = useState([]);
 
   // State to track if a search has been performed
   const [isSearched, setIsSearched] = useState(false);
@@ -88,6 +90,26 @@ export const AppContextProvider = (props) => {
       fetchCompanyData();
     }
   }, [companyToken, backendUrl]);
+
+  // fetch jobs from backend
+  const fetchJobs = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${backendUrl}/api/jobs`);
+
+      if (data.success) {
+        setJobs(data.jobs);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [backendUrl]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchJobs();
+  }, [fetchJobs]);
 
   /**
    * Fetches profile data for the currently authenticated Clerk user.
@@ -173,7 +195,7 @@ export const AppContextProvider = (props) => {
   };
 
   // Multiple filter groups are combined with AND semantics to keep search behavior predictable.
-  const filteredJobs = jobsData.filter((job) => {
+  const filteredJobs = jobs.filter((job) => {
     const titleMatch =
       !searchFilter.title ||
       job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
@@ -218,6 +240,9 @@ export const AppContextProvider = (props) => {
     setResume,
     fetchUserData,
     fetchUserApplications,
+    jobs,
+    setJobs,
+    fetchJobs,
   };
 
   return (

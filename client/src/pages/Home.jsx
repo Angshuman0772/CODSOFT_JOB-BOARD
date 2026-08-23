@@ -1,45 +1,16 @@
-/**
- * Home page.
- *
- * Purpose: present hero/search entry points and a featured subset of jobs.
- */
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import axios from "axios";
+
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import JobCards from "../components/JobCards";
 import Sidebar from "../components/Sidebar";
+
 import "../styles/Home.css";
 
-/**
- * Renders the landing page and fetches jobs for featured cards.
- *
- * @returns {JSX.Element} Home layout with hero, filters, and featured jobs.
- * @sideeffects Performs a backend fetch and updates local component state.
- */
 const Home = () => {
-  const { showFilters, setShowFilters, backendUrl } = useContext(AppContext);
-  const [jobs, setJobs] = useState([]);
-  const [error, setError] = useState("");
-
-  // fetch jobs from backend
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const { data } = await axios.get(`${backendUrl}/api/jobs`);
-
-        if (data.success) {
-          setJobs(data.jobs);
-        }
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchJobs();
-  }, [backendUrl]);
+  const { showFilters, setShowFilters, jobs } = useContext(AppContext);
 
   return (
     <div>
@@ -71,8 +42,7 @@ const Home = () => {
             </Link>
           </div>
 
-          {error && <p className="error-message">{error}</p>}
-          {!error && <JobCards jobs={jobs.slice(0, 6)} />}
+          <JobCards jobs={jobs.slice(0, 6)} />
         </section>
       </div>
     </div>
