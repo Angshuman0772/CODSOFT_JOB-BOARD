@@ -6,6 +6,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import JobCards from "../components/JobCards";
@@ -27,18 +28,13 @@ const Home = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/jobs`);
+        const { data } = await axios.get(`${backendUrl}/api/jobs`);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch jobs");
+        if (data.success) {
+          setJobs(data.jobs);
         }
-
-        const data = await response.json();
-
-        // Supports either legacy array payloads or object payloads from newer endpoints.
-        setJobs(Array.isArray(data) ? data : data.jobs || []);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        setError(error.message);
       }
     };
 

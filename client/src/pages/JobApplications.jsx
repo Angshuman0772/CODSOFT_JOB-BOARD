@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useAuth } from "@clerk/react";
+import axios from "axios";
 import { toast } from "react-toastify";
 import Navbar from "../components/Navbar";
 import "../styles/JobApplications.css";
@@ -37,15 +38,15 @@ const JobApplications = () => {
 
       const token = await getToken();
 
-      const response = await fetch(`${backendUrl}/api/user/update-profile`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const { data } = await axios.post(
+        `${backendUrl}/api/user/update-profile`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-        body: formData,
-      });
-
-      const data = await response.json();
+      );
 
       if (data.success) {
         toast.success(data.message);

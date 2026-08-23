@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { useContext } from "react";
+import axios from "axios";
 import { assets } from "../assets/assets";
 import { toast } from "react-toastify";
 import { useAuth } from "@clerk/react";
@@ -36,10 +37,11 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await fetch(`${backendUrl}/api/jobs/${id}`);
-        const data = await response.json();
+        const { data } = await axios.get(`${backendUrl}/api/jobs/${id}`);
+
         setJob(data.success ? data.job : null);
-      } catch {
+        // eslint-disable-next-line no-unused-vars
+      } catch (error) {
         setJob(null);
       }
     };
@@ -55,19 +57,22 @@ const JobDetails = () => {
       if (!userData) {
         return toast.error("Please login to apply for jobs");
       }
+
       if (!userData?.resume) {
         return toast.error("Please upload a resume before applying");
       }
+
       const token = await getToken();
-      const response = await fetch(`${backendUrl}/api/user/apply`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+
+      const { data } = await axios.post(
+        `${backendUrl}/api/user/apply`,
+        { jobId: job._id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-        body: JSON.stringify({ jobId: job._id }),
-      });
-      const data = await response.json();
+      );
 
       if (data.success) {
         toast.success(data.message);
@@ -77,7 +82,9 @@ const JobDetails = () => {
       }
     } catch (error) {
       toast.error(
-        error.message || "An error occurred while applying for the job",
+        error.response?.data?.message ||
+          error.message ||
+          "An error occurred while applying for the job",
       );
     }
   };
