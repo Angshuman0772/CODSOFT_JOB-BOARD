@@ -36,6 +36,27 @@ const ViewApplications = () => {
     }
   }, [backendUrl, companyToken]);
 
+  // function to update job application status (accept/reject) in the backend API
+  const changeJobApplicationStatus = async (id, status) => {
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/company/change-status`,
+        { id, status },
+        {
+          headers: { token: companyToken },
+        },
+      );
+      if (data.success) {
+        toast.success(data.message);
+        fetchCompanyJobApplications();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (companyToken) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -90,15 +111,43 @@ const ViewApplications = () => {
                     </td>
 
                     <td>
-                      <div className="action-menu">
-                        <button className="menu-btn">⋮</button>
+                      {applicant.status === "pending" ? (
+                        <div className="action-menu">
+                          <button className="menu-btn">⋮</button>
 
-                        <div className="action-dropdown">
-                          <button className="accept-btn">Accept</button>
+                          <div className="action-dropdown">
+                            <button
+                              className="accept-btn"
+                              onClick={() =>
+                                changeJobApplicationStatus(
+                                  applicant._id,
+                                  "accepted",
+                                )
+                              }
+                            >
+                              Accept
+                            </button>
 
-                          <button className="reject-btn">Reject</button>
+                            <button
+                              className="reject-btn"
+                              onClick={() =>
+                                changeJobApplicationStatus(
+                                  applicant._id,
+                                  "rejected",
+                                )
+                              }
+                            >
+                              Reject
+                            </button>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <span className={`status-badge ${applicant.status}`}>
+                          {applicant.status === "accepted"
+                            ? "Accepted"
+                            : "Rejected"}
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ))}

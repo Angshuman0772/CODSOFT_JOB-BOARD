@@ -243,7 +243,24 @@ export const getCompanyJobs = async (req, res) => {
  * @returns {Promise<void>} No-op in current implementation.
  * @sideeffects None.
  */
-export const changeJobApplicationStatus = async (req, res) => {};
+export const changeJobApplicationStatus = async (req, res) => {
+  try {
+    const { id, status } = req.body;
+
+    // find job application data and update status
+    await JobApplication.findOneAndUpdate({ _id: id }, { status });
+
+    res.json({
+      success: true,
+      message: "Status Changed",
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 /**
  * Toggles visibility for a company-owned job posting.
