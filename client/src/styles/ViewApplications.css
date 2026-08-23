@@ -5,7 +5,6 @@
 .applications-card {
   border: 1px solid #e5e7eb;
   border-radius: 20px;
-  overflow: hidden;
 }
 
 .applications-table {
@@ -105,7 +104,7 @@
   display: none;
   flex-direction: column;
 
-  z-index: 100;
+  z-index: 9999;
 }
 
 .action-menu:hover .action-dropdown {
