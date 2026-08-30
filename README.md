@@ -1,176 +1,380 @@
-# HireFlow Job Portal
+# HireFlow – Modern Job Portal Platform
 
-HireFlow is a full-stack job portal for discovering roles, applying with a resume, and managing hiring workflows. The repository contains a Vite + React client and an Express + MongoDB API server.
+## Overview
 
-## Features
+HireFlow is a modern full-stack job portal designed to connect job seekers with recruiters through a clean, responsive, and intuitive user experience.
 
-- Search and filter jobs by title, location, category, and work level.
-- Browse job details and submit applications as a candidate.
-- Manage candidate profiles and resume uploads.
-- Register and authenticate companies with JWT tokens.
-- Post jobs, control job visibility, and review application data from the recruiter dashboard.
-- Upload company logos and resumes through Cloudinary.
-- Use Clerk for candidate authentication and webhook handling.
-- Monitor server errors with Sentry.
+The platform enables candidates to search and discover jobs, view detailed job information, apply for positions, manage applications, and maintain resumes. Recruiters can register, log in, and manage job postings through a dedicated dashboard interface.
 
-## Tech Stack
+The application is built with React, React Router, Clerk Authentication, Context API, and modern UI libraries to deliver a scalable and user-friendly recruitment platform.
 
-- **Client:** React, Vite, React Router, Context API, Axios, Clerk React, React Toastify
-- **Server:** Node.js, Express, MongoDB with Mongoose, Clerk Express, JWT, Multer, Cloudinary, Sentry
+---
 
-## Project Structure
+# Features
+
+## Candidate Features
+
+### Job Search & Discovery
+
+- Browse all available job listings
+- Search jobs by:
+  - Job title
+  - Company name
+  - Location
+
+- Filter jobs using:
+  - Job categories
+  - Locations
+
+- Dynamic filtering using React Context API
+- Pagination support for large job datasets
+
+### Featured Jobs
+
+- Homepage highlights selected featured jobs
+- Quick access to top opportunities
+- Direct navigation to full job listings
+
+### Job Details
+
+Each job listing contains:
+
+- Job title
+- Company information
+- Salary details
+- Job category
+- Experience level
+- Location
+- Detailed job description
+- Job overview section
+
+### Application Management
+
+Candidates can:
+
+- Upload resumes
+- Replace existing resumes
+- Remove uploaded resumes
+- View previously applied jobs
+- Track application status
+
+Supported statuses include:
+
+- Accepted
+- Rejected
+- Pending
+
+### User Authentication
+
+Powered by Clerk Authentication:
+
+- User login
+- User session management
+- Personalized greetings
+- Secure account handling
+- User profile management
+
+---
+
+## Recruiter Features
+
+### Recruiter Authentication
+
+Recruiters can:
+
+- Register a company account
+- Login to existing recruiter accounts
+- Upload company logos
+- Manage recruiter profile information
+
+### Multi-Step Registration
+
+Recruiter onboarding includes:
+
+#### Step 1
+
+- Company Name
+- Email Address
+- Password
+
+#### Step 2
+
+- Company Logo Upload
+
+### Dashboard Structure
+
+Recruiter dashboard includes dedicated routes for:
+
+- Add Jobs
+- Manage Jobs
+- View Applications
+
+Current dashboard architecture is implemented and ready for backend integration.
+
+---
+
+# Technology Stack
+
+## Frontend
+
+- React
+- React Router DOM
+- Context API
+- Clerk Authentication
+- Axios
+- Lucide React Icons
+- React Icons
+
+## Styling
+
+- CSS Modules / Component-based CSS
+- Responsive Design
+- Mobile-Friendly Layout
+
+## State Management
+
+- React Context API
+- Local Component State
+
+## Routing
+
+Implemented using React Router:
+
+| Route                        | Description         |
+| ---------------------------- | ------------------- |
+| /                            | Homepage            |
+| /jobs                        | All Jobs            |
+| /jobs/:id                    | Job Details         |
+| /applications                | Applied Jobs        |
+| /dashboard                   | Recruiter Dashboard |
+| /dashboard/add-jobs          | Add Jobs            |
+| /dashboard/manage-jobs       | Manage Jobs         |
+| /dashboard/view-applications | View Applications   |
+
+---
+
+# Project Structure
 
 ```text
-.
-├── client/   React/Vite frontend
-└── server/   Express API and MongoDB integration
+src/
+│
+├── components/
+│   ├── Hero
+│   ├── NavBar
+│   ├── Sidebar
+│   ├── JobCards
+│   ├── RecruiterLogin
+│
+├── pages/
+│   ├── Home
+│   ├── JobsPage
+│   ├── JobDetails
+│   ├── JobApplications
+│   ├── Dashboard
+│   ├── AddJobs
+│   ├── ManageJobs
+│   └── ViewApplications
+│
+├── context/
+│   └── AppContext
+│
+├── assets/
+│   └── Job Data
+│
+├── styles/
+│   └── CSS Files
+│
+├── App.jsx
+└── main.jsx
 ```
 
-For a deeper walkthrough of the frontend architecture, see [client/README.md](client/README.md).
+---
 
-## Getting Started
+# Search & Filtering System
 
-### Prerequisites
+The application uses a centralized Context API architecture.
 
-Install the following before starting:
+### Search Filters
 
-- Node.js 18 or newer
-- npm
-- A MongoDB deployment and connection string
-- A Clerk application
-- A Cloudinary account
+```javascript
+{
+  title: "",
+  location: "",
+  selectedCategories: [],
+  selectedLocations: []
+}
+```
 
-### 1. Install dependencies
+### Supported Filters
+
+#### Text Filters
+
+- Job Title
+- Company Name
+- Location
+
+#### Category Filters
+
+Examples:
+
+- Software Development
+- Design
+- Marketing
+- Product Management
+
+#### Location Filters
+
+Examples:
+
+- Remote
+- Hybrid
+- On-site Locations
+
+---
+
+# Authentication Flow
+
+## Job Seekers
+
+Authentication is managed using Clerk.
+
+Features include:
+
+- Secure sign in
+- Session persistence
+- User profile management
+- Protected user actions
+
+## Recruiters
+
+Recruiter authentication UI supports:
+
+- Login
+- Registration
+- Company onboarding
+- Logo uploads
+
+---
+
+# Responsive Design
+
+HireFlow is optimized for:
+
+- Desktop
+- Laptop
+- Tablet
+- Mobile devices
+
+Responsive features include:
+
+- Mobile filter drawer
+- Adaptive navigation
+- Flexible job cards
+- Responsive search interface
+
+---
+
+# Installation
+
+## Clone Repository
 
 ```bash
-git clone git@github.com:Angshuman0772/CODSOFT_JOB-BOARD.git
-cd CODSOFT_JOB-BOARD
+git clone https://github.com/yourusername/hireflow.git
+```
 
-cd server
+## Navigate to Project
+
+```bash
+cd hireflow
+```
+
+## Install Dependencies
+
+```bash
 npm install
-
-cd ../client
-npm install
 ```
 
-### 2. Configure the server
+## Environment Variables
 
-Create `server/.env`:
+Create a `.env` file:
 
-```dotenv
-PORT=5000
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>/<database>
-JWT_SECRET=replace-with-a-long-random-secret
-CLERK_SECRET_KEY=your-clerk-secret-key
-CLERK_WEBHOOK_SECRET=your-clerk-webhook-signing-secret
-CLOUDINARY_CLOUD_NAME=your-cloud-name
-CLOUDINARY_API_KEY=your-api-key
-CLOUDINARY_API_SECRET=your-api-secret
+```env
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 ```
 
-`MONGODB_URI`, `JWT_SECRET`, `CLERK_SECRET_KEY`, and the Cloudinary values are required for the corresponding server features. Keep this file out of version control.
-
-### Clerk webhook setup (required for user sync)
-
-In the [Clerk Dashboard](https://dashboard.clerk.com) → **Webhooks** → **Add Endpoint**:
-
-1. **Endpoint URL:** `https://<your-vercel-server-domain>/webhooks`
-2. **Subscribe to events:** `user.created`, `user.updated`, `user.deleted`
-3. Copy the **Signing Secret** into `CLERK_WEBHOOK_SECRET` on Vercel
-
-The `CLERK_SECRET_KEY` (from Clerk → API Keys) must also be set on Vercel — without it, `@clerk/express` cannot verify login tokens and API routes return 500.
-
-### 3. Configure the client
-
-Create `client/.env`:
-
-```dotenv
-VITE_BACKEND_URL=http://localhost:5000
-VITE_CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key
-```
-
-The Clerk publishable key must belong to the same Clerk application configured for the server webhook.
-
-### 4. Run the application
-
-Start the API server in one terminal:
+## Start Development Server
 
 ```bash
-cd server
-npm run server
-```
-
-Start the frontend in another terminal:
-
-```bash
-cd client
 npm run dev
 ```
 
-Open the local URL printed by Vite, normally `http://localhost:5173`.
+Application runs on:
 
-## Available Scripts
+```text
+http://localhost:5173
+```
 
-### Client
+---
 
-Run these commands from `client/`:
+# Future Improvements
 
-| Command           | Purpose                              |
-| ----------------- | ------------------------------------ |
-| `npm run dev`     | Start the Vite development server    |
-| `npm run build`   | Create a production build            |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint`    | Run ESLint                           |
+## Candidate Side
 
-### Server
+- Resume database integration
+- Saved jobs
+- Job recommendations
+- Application analytics
+- Email notifications
 
-Run these commands from `server/`:
+## Recruiter Side
 
-| Command          | Purpose                                       |
-| ---------------- | --------------------------------------------- |
-| `npm start`      | Start the API with Node.js                    |
-| `npm run server` | Start the API with Nodemon during development |
+- Create job postings
+- Edit job postings
+- Delete job postings
+- Application review workflow
+- Candidate shortlisting
 
-The API listens on port `5000` by default, or on the port specified by `PORT`.
+## Platform Enhancements
 
-## Application Routes
+- Backend API integration
+- MongoDB database support
+- JWT authentication
+- Cloud resume storage
+- Cloud image uploads
+- Real-time notifications
+- Admin dashboard
+- AI-powered job matching
 
-The client currently provides these main routes:
+---
 
-- `/` - Browse the home page and search for jobs
-- `/jobs` - View and filter job listings
-- `/jobs/:id` - View a job and apply
-- `/applications` - View candidate applications
-- `/dashboard` - Access recruiter dashboard pages when authenticated
-- `/dashboard/add-jobs` - Post a job
-- `/dashboard/manage-jobs` - Manage company jobs
-- `/dashboard/view-applications` - Review applications
+# Learning Outcomes
 
-The server exposes these API groups:
+This project demonstrates practical experience with:
 
-- `/api/jobs` - Public job listing and job detail reads
-- `/api/company` - Company registration, login, job management, and recruiter operations
-- `/api/user` - Candidate data, applications, and resume profile updates
-- `/webhooks` - Clerk webhook endpoint
+- React Development
+- Component Architecture
+- React Router
+- Context API
+- Authentication with Clerk
+- State Management
+- Dynamic Filtering
+- Responsive UI Design
+- Form Handling
+- Multi-Step Workflows
+- Modern Frontend Development Practices
 
-## Contributing
+---
 
-1. Create a feature branch from the default branch.
-2. Make a focused change and keep client and server changes scoped to the feature.
-3. Run `npm run lint` and `npm run build` from `client/`.
-4. Exercise the affected server workflow locally with the required environment variables.
-5. Open a pull request with a concise description, verification steps, and screenshots for UI changes.
+# Author
 
-Please avoid committing secrets, generated files, or local environment files. Detailed contribution policies can be added in `CONTRIBUTING.md` as the project grows.
+**Angshuman**
 
-## Support
+Computer Science Undergraduate | Full-Stack Developer | AI Enthusiast
 
-For setup or usage issues, first review [client/README.md](client/README.md) and the relevant source area under `client/src/` or `server/`. Then open an issue in the [GitHub repository](https://github.com/Angshuman0772/CODSOFT_JOB-BOARD/issues) with your environment, reproduction steps, and relevant logs. Do not include credentials or tokens in an issue.
+---
 
-## Maintainer
+# License
 
-HireFlow is maintained by [Angshuman0772](https://github.com/Angshuman0772). Contributions and focused bug reports are welcome through GitHub issues and pull requests.
+This project is licensed under the MIT License.
 
-## License
-
-The server package currently declares the ISC license. See the repository's license file when one is added for the complete license text and terms.
+Feel free to use, modify, and distribute this project for educational and commercial purposes.
